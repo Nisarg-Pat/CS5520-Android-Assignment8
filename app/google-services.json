@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "365784893893",
+    "firebase_url": "https://testdb1-f647e-default-rtdb.firebaseio.com",
+    "project_id": "testdb1-f647e",
+    "storage_bucket": "testdb1-f647e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365784893893:android:e5bbed4cbd8b122b3b63ac",
+        "android_client_info": {
+          "package_name": "com.example.dbtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365784893893-527a32m2vtuits9di1peeftou6br35qa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6EkwkSllzjaJRor23Jo9JykNfFLXZUx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365784893893-527a32m2vtuits9di1peeftou6br35qa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365784893893:android:0ec8e0e53a1010443b63ac",
+        "android_client_info": {
+          "package_name": "edu.neu.harshit.gajjar.numadsp22_team24_a8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365784893893-527a32m2vtuits9di1peeftou6br35qa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6EkwkSllzjaJRor23Jo9JykNfFLXZUx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365784893893-527a32m2vtuits9di1peeftou6br35qa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

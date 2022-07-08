@@ -14,9 +14,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Firebase
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("habc").child("123").setValue("Hello world");
-        db.child("hbcd").child("123").setValue("Hello world");
+        db.child("sean1").child("123").setValue("Hello world");
+        db.child("sean2").child("123").setValue("Hello world");
     }
 }

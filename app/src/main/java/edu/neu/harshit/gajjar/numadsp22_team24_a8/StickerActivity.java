@@ -14,6 +14,7 @@ public class StickerActivity extends AppCompatActivity implements View.OnClickLi
             R.drawable.sticker2,R.drawable.sticker3,R.drawable.sticker4,
             R.drawable.sticker5,R.drawable.sticker6,R.drawable.sticker7,
             R.drawable.sticker8,R.drawable.sticker9,R.drawable.sticker10};
+
     private StickerNotification notification;
     private StickerDialog dialog;
 

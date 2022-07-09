@@ -12,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+
+import pl.droidsonroids.gif.GifImageView;
+
 public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerViewHolder> {
 
     public static class StickerViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView stickerIcon;
+        private final GifImageView stickerIcon;
         private final TextView stickerCount;
         public StickerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -29,7 +32,6 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
     private final List<Sticker> stickers;
     int selectedSticker;
     public StickerAdapter(Context context, List<Sticker> stickers, StickerDialog dialog) {
-
         this.context = context;
         this.stickers = stickers;
         this.selectedSticker = -1;
@@ -49,6 +51,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
         Sticker sticker = stickers.get(position);
         holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
         holder.stickerIcon.setOnClickListener(v -> {
+            // Send the clicked on ID to the activity's fragment result listener
             holder.stickerCount.setText(String.valueOf(sticker.getCountSent()));
             Bundle bundle = new Bundle();
             bundle.putInt("id", sticker.getId());

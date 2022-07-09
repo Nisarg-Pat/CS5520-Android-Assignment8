@@ -1,15 +1,21 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
@@ -38,5 +44,12 @@ public class StickerDialog extends BottomSheetDialogFragment {
         StickerAdapter adapter = new StickerAdapter(activity,stickerList,this);
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.dismiss();
     }
 }

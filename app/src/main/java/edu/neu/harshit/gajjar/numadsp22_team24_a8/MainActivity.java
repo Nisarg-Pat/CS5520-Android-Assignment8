@@ -13,9 +13,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StickerNotification notification = new StickerNotification(this);
+        notification.createNotification("Chris");
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("sean1").child("123").setValue("Hello world");
-        db.child("sean2").child("123").setValue("Hello world");
     }
 }

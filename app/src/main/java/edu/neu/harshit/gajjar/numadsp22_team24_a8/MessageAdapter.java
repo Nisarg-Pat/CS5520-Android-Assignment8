@@ -25,15 +25,15 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if viewType == 0
-        return new ChatViewHolder(LayoutInflater.from(context).inflate(R.layout.chat_row, parent,false));
+        return null;
+//        return new ChatViewHolder(LayoutInflater.from(context).inflate(R.layout.chat_row, parent,false));
         //
     }
 
     @Override
     public int getItemViewType(int position) {
         Message currentMessage = messageList.get(position);
-        if (currentMessage.getUsername() == Fireb)
+        return 1;
     }
 
     @Override

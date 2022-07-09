@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -32,11 +33,12 @@ public class StickerActivity extends AppCompatActivity {
         StickerAdapter adapter = new StickerAdapter(this,stickerList);
         RecyclerView view = findViewById(R.id.sticker_recycler_view);
         view.setHasFixedSize(true);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            view.setLayoutManager(new GridLayoutManager(this, 2));
-        } else{
-            view.setLayoutManager(new GridLayoutManager(this, 3));
-        }
+        view.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+//        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            view.setLayoutManager(new GridLayoutManager(this, 2));
+//        } else{
+//            view.setLayoutManager(new GridLayoutManager(this, 3));
+//        }
         view.setAdapter(adapter);
     }
 }

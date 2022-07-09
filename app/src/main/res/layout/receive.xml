@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/message_shape"
-    android:layout_alignParentleft="true"
+    android:layout_alignParentLeft="true"
     android:layout_marginLeft="5dp"
     android:layout_marginTop="5dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/receive_message_row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:background="@drawable/message_shape"
+            android:backgroundTint="#8BC34A"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -29,13 +27,14 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <!-- Title, secondary and supporting text -->
                 <TextView
                     android:id="@+id/receive_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Michael Jordan"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/receive_sticker"
@@ -56,11 +55,11 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:text="Jun 2 Sun"
-                android:textAlignment="viewEnd" />
+                android:textAlignment="viewEnd"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
 

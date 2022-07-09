@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import pl.droidsonroids.gif.GifImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -60,14 +63,14 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Message currentMessage = messageList.get(position);
             viewHolder.sent_datetime.setText(currentMessage.getDatetime());
             viewHolder.sent_username.setText(currentMessage.getUsername());
-            viewHolder.sent_sticker.setText(currentMessage.getSticker());
+            viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
         }
         else{
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
             Message currentMessage = messageList.get(position);
             viewHolder.receive_datetime.setText(currentMessage.getDatetime());
             viewHolder.receive_username.setText(currentMessage.getUsername());
-            viewHolder.receive_sticker.setText(currentMessage.getSticker());
+            viewHolder.receive_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
         }
 
     }
@@ -78,7 +81,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class SendViewHolder extends RecyclerView.ViewHolder {
-        TextView sent_username, sent_datetime, sent_sticker;
+        TextView sent_username, sent_datetime;
+        GifImageView sent_sticker;
 
         public SendViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,7 +92,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
     class ReceiveViewHolder extends RecyclerView.ViewHolder {
-        TextView receive_username, receive_datetime, receive_sticker;
+        TextView receive_username, receive_datetime;
+        GifImageView receive_sticker;
 
         public ReceiveViewHolder(@NonNull View itemView) {
             super(itemView);

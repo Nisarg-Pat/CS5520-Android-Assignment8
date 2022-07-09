@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import pl.droidsonroids.gif.GifImageView;
 public class ChatHistory extends AppCompatActivity {
     private RecyclerView chatRecyclerView;
     private List<Message> chatList;
@@ -28,11 +28,11 @@ public class ChatHistory extends AppCompatActivity {
 
         // Test Data for Front End --> To be replaced by populating the list from Firebase data
         chatList = new ArrayList<Message>();
-        chatList.add(new Message("2022 Jun 24", "Alan", "Sticker A"));
-        chatList.add(new Message("2022 Jun 25", "Bob", "Sticker C"));
-        chatList.add(new Message("2022 Jun 26", "Chase", "Sticker A"));
-        chatList.add(new Message("2022 Jun 27", "Dylan", "Sticker X"));
-        chatList.add(new Message("2022 Jun 28", "Frank", "Sticker A"));
+        chatList.add(new Message("2022 Jun 24", "Alan", R.drawable.sticker1));
+        chatList.add(new Message("2022 Jun 25", "Bob", R.drawable.sticker2));
+        chatList.add(new Message("2022 Jun 26", "Chase", R.drawable.sticker3));
+        chatList.add(new Message("2022 Jun 27", "Dylan", R.drawable.sticker4));
+        chatList.add(new Message("2022 Jun 28", "Frank", R.drawable.sticker5));
 
         setContentView(R.layout.chat_history);
         chatAdapter = new ChatAdapter(this, chatList);

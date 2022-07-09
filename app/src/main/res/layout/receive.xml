@@ -6,15 +6,14 @@
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/message_shape"
+
     android:layout_alignParentLeft="true"
     android:layout_marginLeft="5dp"
     android:layout_marginTop="5dp">
 
 
         <LinearLayout
-            android:background="@drawable/message_shape"
-            android:backgroundTint="#8BC34A"
+            android:background="@drawable/receive_message_shape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -36,14 +35,12 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <TextView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/receive_sticker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="✅"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:textColor="@color/black" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:src="@drawable/sticker1" />
 
 
             </LinearLayout>

@@ -3,9 +3,9 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 public class Message {
     String datetime;
     String username;
-    String sticker;
+    int sticker;
 
-    public Message(String datetime, String username, String sticker) {
+    public Message(String datetime, String username, int sticker) {
         this.datetime = datetime;
         this.username = username;
         this.sticker = sticker;
@@ -19,7 +19,7 @@ public class Message {
         return username;
     }
 
-    public String getSticker() {
+    public int getSticker() {
         return sticker;
     }
 }

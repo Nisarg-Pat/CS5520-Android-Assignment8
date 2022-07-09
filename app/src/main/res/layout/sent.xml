@@ -12,9 +12,8 @@
 
 
             <LinearLayout
-                android:background="@drawable/message_shape"
+                android:background="@drawable/send_message_shape"
                 android:padding="5dp"
-                android:backgroundTint="#03A9F4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -36,14 +35,12 @@
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
 
-                    <TextView
+                    <pl.droidsonroids.gif.GifImageView
                         android:id="@+id/sent_sticker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="✅"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                        android:textColor="@color/black" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#fff"
+                        android:src="@drawable/sticker1" />
 
                 </LinearLayout>
 

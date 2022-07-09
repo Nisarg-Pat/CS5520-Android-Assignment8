@@ -57,6 +57,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
             bundle.putInt("id", sticker.getId());
             dialog.getParentFragmentManager().setFragmentResult("clicked_on_sticker",
                     bundle);
+            dialog.dismiss();
         });
 //        holder.stickerIcon.setOnClickListener((v) -> {
 //            if(selectedSticker == holder.getAdapterPosition()) {

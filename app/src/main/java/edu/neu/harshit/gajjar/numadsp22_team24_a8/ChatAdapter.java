@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 
 import java.util.List;
-
+import pl.droidsonroids.gif.GifImageView;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
     private Context context;
     private List<Message> messageList;
@@ -34,7 +35,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         Message currentMessage = messageList.get(position);
         holder.chat_text_datetime.setText(currentMessage.getDatetime());
         holder.chat_text_username.setText(currentMessage.getUsername());
-        holder.chat_text_last_sticker.setText(currentMessage.getSticker());
+        holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
         holder.itemView.setOnClickListener((View v)->{
             Intent intent = new Intent(context, ChatRoom.class);
             intent.putExtra("currentUserName", currentMessage.getUsername().toString());
@@ -48,13 +49,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
-        TextView chat_text_username, chat_text_datetime, chat_text_last_sticker;
+        TextView chat_text_username, chat_text_datetime;
+        GifImageView chat_sticker;
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             chat_text_username = itemView.findViewById(R.id.chat_text_username);
             chat_text_datetime = itemView.findViewById(R.id.chat_text_datetime);
-            chat_text_last_sticker = itemView.findViewById(R.id.chat_text_sticker);
+            chat_sticker = itemView.findViewById(R.id.chat_sticker);
         }
     }
 }

@@ -51,19 +51,20 @@ public class ChatHistory extends AppCompatActivity {
 
         // Test Data for Front End --> To be replaced by populating the list from Firebase data
         chatList = new ArrayList<Message>();
-        chatList.add(new Message("2022 Jun 24", "Alan", R.drawable.sticker1));
-        chatList.add(new Message("2022 Jun 25", "Bob", R.drawable.sticker2));
-        chatList.add(new Message("2022 Jun 26", "Chase", R.drawable.sticker3));
-        chatList.add(new Message("2022 Jun 27", "Dylan", R.drawable.sticker4));
-        chatList.add(new Message("2022 Jun 28", "Frank", R.drawable.sticker5));
+//        chatList.add(new Message("2022 Jun 24", "Alan", R.drawable.sticker1));
+//        chatList.add(new Message("2022 Jun 25", "Bob", R.drawable.sticker2));
+//        chatList.add(new Message("2022 Jun 26", "Chase", R.drawable.sticker3));
+//        chatList.add(new Message("2022 Jun 27", "Dylan", R.drawable.sticker4));
+//        chatList.add(new Message("2022 Jun 28", "Frank", R.drawable.sticker5));
 
         setContentView(R.layout.chat_history);
-        chatAdapter = new ChatAdapter(this, chatList);
+//        chatAdapter = new ChatAdapter(this, chatList);
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        chatRecyclerView.setAdapter(chatAdapter);
+//        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        chatRecyclerView.setAdapter(chatAdapter);
 
         // Implement addValueEventListener for Firebase data
+        getAllUsers();
     }
 
     @Override
@@ -102,6 +103,10 @@ public class ChatHistory extends AppCompatActivity {
                     }
                 }
                 Log.i("number of users", String.valueOf(allUsers.size()));
+
+                if(allUsers.size() > 0){
+                    populateChatList();
+                }
             }
 
             @Override
@@ -109,5 +114,14 @@ public class ChatHistory extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void populateChatList(){
+        for(User user: allUsers){
+            chatList.add(new Message("2022 Jun 24", user.getUsername(), R.drawable.sticker1));
+        }
+        chatAdapter = new ChatAdapter(this, chatList);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        chatRecyclerView.setAdapter(chatAdapter);
     }
 }

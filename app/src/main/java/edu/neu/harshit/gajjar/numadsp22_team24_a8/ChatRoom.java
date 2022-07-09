@@ -3,6 +3,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,9 @@ public class ChatRoom extends AppCompatActivity {
     private StickerNotification notification;
     private StickerDialog dialog;
 
+    // Receiver Username
+    String receiverName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,17 +35,19 @@ public class ChatRoom extends AppCompatActivity {
 
         Intent intent = getIntent();
         receiver = intent.getStringExtra("currentUserName");
+        receiverName = intent.getStringExtra("clickedUserName");
         getSupportActionBar().setTitle(receiver);
 
         chatRoomRecyclerView = findViewById(R.id.chat_room_recycler_view);
 
         messageList = new ArrayList<Message>();
         // Test Data for Front End --> To be replaced by populating the list from Firebase data
-        messageList.add(new Message("2022 Jun 24", "Alan", R.drawable.sticker1));
-        messageList.add(new Message("2022 Jun 25", "Sean", R.drawable.sticker5));
-        messageList.add(new Message("2022 Jun 26", "Sean", R.drawable.sticker1));
-        messageList.add(new Message("2022 Jun 27", "Sean", R.drawable.sticker6));
-        messageList.add(new Message("2022 Jun 28", "Sean", R.drawable.sticker1));
+
+//        messageList.add(new Message("2022 Jun 24", "Alan", R.drawable.sticker1));
+//        messageList.add(new Message("2022 Jun 25", "Sean", R.drawable.sticker5));
+//        messageList.add(new Message("2022 Jun 26", "Sean", R.drawable.sticker1));
+//        messageList.add(new Message("2022 Jun 27", "Sean", R.drawable.sticker6));
+//        messageList.add(new Message("2022 Jun 28", "Sean", R.drawable.sticker1));
 
         messageAdpater = new MessageAdapter(this,messageList);
         chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +69,8 @@ public class ChatRoom extends AppCompatActivity {
                     int id = result.getInt("id");
                     Log.d("stickerID",String.valueOf(id));
                     // Implement Firebase new message logic
+
+                    sendMessageToFirebase();
                 });
 
     }
@@ -71,5 +79,11 @@ public class ChatRoom extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(),
                 "sticker_fragment");
 
+    }
+
+
+    public void sendMessageToFirebase(){
+        Log.i("current_username", FirebaseDB.currentUser.getUsername());
+        Log.i("receiver_username", receiverName);
     }
 }

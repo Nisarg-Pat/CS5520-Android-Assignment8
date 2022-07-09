@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 //                FirebaseDB.registerUser("chriss@gmail.com", "123456", "Chris_Schelb", LoginActivity.this);
 
 //                FirebaseDB.logIn("hrstgajjar3@gmail.com", "123456", LoginActivity.this);
-                
+
                 FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword("hrstgajjar3@gmail.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

@@ -2,6 +2,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.chat_text_username.setText(currentMessage.getUsername());
         holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
         holder.itemView.setOnClickListener((View v)->{
+
+            Log.i("clicked user", currentMessage.getUsername().toString());
             Intent intent = new Intent(context, ChatRoom.class);
             intent.putExtra("currentUserName", currentMessage.getUsername().toString());
+            intent.putExtra("clickedUserName", currentMessage.getUsername().toString());
             context.startActivity(intent);
         });
     }

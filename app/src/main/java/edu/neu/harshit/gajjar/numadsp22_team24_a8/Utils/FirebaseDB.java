@@ -9,17 +9,23 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.ChatHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.LoginActivity;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.R;
 
 public class FirebaseDB {
+
+    public static User currentUser;
 
     // Get Reference to a specific child in database
     public static DatabaseReference getDataReference(String path){
@@ -88,5 +94,24 @@ public class FirebaseDB {
 
     public static void logout(){
         getInstanceFirebaseAuth().signOut();
+    }
+
+    public static void getDetailsCurrentUser(Context ct){
+        FirebaseUser user = getCurrentUser();
+        DatabaseReference ref = getDataReference(ct.getString(R.string.user_db)).child(user.getUid());
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()){
+                    currentUser = (User) snap.getValue(User.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

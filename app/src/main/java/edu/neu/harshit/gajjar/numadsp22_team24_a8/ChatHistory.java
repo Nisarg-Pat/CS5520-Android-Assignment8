@@ -100,6 +100,8 @@ public class ChatHistory extends AppCompatActivity {
                     // Fetch all users except the current User
                     if(user != null && !user.getId().equals(FirebaseDB.getCurrentUser().getUid())){
                          allUsers.add(user);
+                    } else {
+                        FirebaseDB.currentUser = user;
                     }
                 }
                 Log.i("number of users", String.valueOf(allUsers.size()));

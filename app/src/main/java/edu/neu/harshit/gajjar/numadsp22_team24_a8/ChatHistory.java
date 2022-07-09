@@ -11,9 +11,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import pl.droidsonroids.gif.GifImageView;
 public class ChatHistory extends AppCompatActivity {
@@ -21,11 +29,22 @@ public class ChatHistory extends AppCompatActivity {
     private List<Message> chatList;
     private ChatAdapter chatAdapter;
     private String loginUserName;
+
+    // Firebase
+    FirebaseUser currentUser;
+    DatabaseReference userDbRef;
+
+    // Lists
+    public ArrayList<User> allUsers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
+
+        // Initialization
+        allUsers = new ArrayList<>();
 
         Intent intent = getIntent();
         loginUserName = intent.getStringExtra("currentUserName");
@@ -64,5 +83,31 @@ public class ChatHistory extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getAllUsers(){
+        currentUser = FirebaseDB.getCurrentUser();
+        userDbRef = FirebaseDB.getDataReference(getString(R.string.user_db));
+
+        userDbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                allUsers.clear();
+                for(DataSnapshot snap: snapshot.getChildren()){
+                    User user = (User) snap.getValue(User.class);
+
+                    // Fetch all users except the current User
+                    if(user != null && !user.getId().equals(FirebaseDB.getCurrentUser().getUid())){
+                         allUsers.add(user);
+                    }
+                }
+                Log.i("number of users", String.valueOf(allUsers.size()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

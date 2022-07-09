@@ -1,6 +1,7 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,6 +61,21 @@ public class FirebaseDB {
 
                         }
                     });
+                }
+            }
+        });
+    }
+
+    // To Login
+    public static void logIn(String email, String password){
+        getInstanceFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    // Successfully Logged in
+                    Log.i("success", "123456");
+                } else {
+                    // Error
                 }
             }
         });

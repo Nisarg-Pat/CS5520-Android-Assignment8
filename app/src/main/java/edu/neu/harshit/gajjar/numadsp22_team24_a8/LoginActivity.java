@@ -25,9 +25,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Implement Firebase login/signup logic
+//                FirebaseDB.registerUser("chriss@gmail.com", "123456", "Chris_Schelb", LoginActivity.this);
 
-                FirebaseDB.registerUser("nisargpatel@gmail.com", "123456", "Nisarg_Pat", LoginActivity.this);
-
+                FirebaseDB.logIn("hrstgajjar3@gmail.com", "123456");
                 Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
                 intent.putExtra("loginUserName", edit_login_username.getText().toString());
                 finish();

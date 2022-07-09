@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import pl.droidsonroids.gif.GifImageView;
 public class ChatHistory extends AppCompatActivity {
     private RecyclerView chatRecyclerView;
@@ -22,6 +25,7 @@ public class ChatHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
 
         Intent intent = getIntent();
         loginUserName = intent.getStringExtra("currentUserName");

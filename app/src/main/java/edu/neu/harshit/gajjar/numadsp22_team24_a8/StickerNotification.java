@@ -1,9 +1,5 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
-import static android.provider.Settings.System.getString;
-
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -23,8 +19,13 @@ public class StickerNotification {
         registerNotificationChannel();
     }
 
+    /**
+     * Creates a new notification with the passed in username.
+     * @param username The username to be displayed.
+     */
     public void createNotification(String username){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, CHANNEL_1_ID)
+        NotificationCompat.Builder builder = new
+                NotificationCompat.Builder(activity, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_message)
                 .setContentTitle(username)
                 .setContentText("New Sticker!")
@@ -34,6 +35,10 @@ public class StickerNotification {
         notificationManager.notify(NOTIFICATION_ID,builder.build());
     }
 
+    /**
+     * Registers a notification channel. Necessary so phones running newer APIs
+     * receive the notifications.
+     */
     private void registerNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

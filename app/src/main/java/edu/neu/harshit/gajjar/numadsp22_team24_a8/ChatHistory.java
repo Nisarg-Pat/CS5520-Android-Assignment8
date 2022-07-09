@@ -56,7 +56,8 @@ public class ChatHistory extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout){
-            // Implement Firebase logout
+            // Logout
+            FirebaseDB.logout();
             Intent intent = new Intent(ChatHistory.this, LoginActivity.class);
             finish();
             startActivity(intent);

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NumadSP22_Team24_A8</string>
+    <string name="helper_text_login">Max Length: 15 characters</string>
 </resources>

@@ -1,25 +1,25 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
-
 public class Message {
-    public String recipient;
-    public String sender;
-    public String stickerID;
+    String datetime;
+    String username;
+    String sticker;
 
-    public Message(){}
-
-    public Message(String receipient, String sender, String stickerID){
-        this.recipient = receipient;
-        this.sender = sender;
-        this.stickerID = stickerID;
+    public Message(String datetime, String username, String sticker) {
+        this.datetime = datetime;
+        this.username = username;
+        this.sticker = sticker;
     }
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                "recipient='" + recipient + '\'' +
-                ", sender='" + sender + '\'' +
-                ", stickerID='" + stickerID + '\'' +
-                '}';
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getSticker() {
+        return sticker;
     }
 }

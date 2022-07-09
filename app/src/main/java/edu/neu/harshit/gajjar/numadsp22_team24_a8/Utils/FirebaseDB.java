@@ -114,4 +114,8 @@ public class FirebaseDB {
             }
         });
     }
+
+    public static DatabaseReference getReferencetoRootDB(){
+        return FirebaseDatabase.getInstance().getReference();
+    }
 }

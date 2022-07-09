@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ChatRoom extends AppCompatActivity {
@@ -70,7 +75,7 @@ public class ChatRoom extends AppCompatActivity {
                     Log.d("stickerID",String.valueOf(id));
                     // Implement Firebase new message logic
 
-                    sendMessageToFirebase();
+                    sendMessageToFirebase(String.valueOf(id));
                 });
 
     }
@@ -82,8 +87,23 @@ public class ChatRoom extends AppCompatActivity {
     }
 
 
-    public void sendMessageToFirebase(){
+    public void sendMessageToFirebase(String stickerId){
         Log.i("current_username", FirebaseDB.currentUser.getUsername());
         Log.i("receiver_username", receiverName);
+
+        DatabaseReference reference = FirebaseDB.getReferencetoRootDB();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("sender", FirebaseDB.currentUser.getUsername());
+        hashMap.put("receiver", receiverName);
+        hashMap.put("message", stickerId);
+        hashMap.put("senderID", FirebaseDB.currentUser.getId());
+//        hashMap.put("receiverID", receiverUserId);
+        hashMap.put("timestamp", Util.getGMTTimestamp());
+
+        String chat_id = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
+        reference.child(getString(R.string.chat)).child(chat_id).push().setValue(hashMap);
+
+//        ref.child(receiverUserId).child("chatIDs").push().setValue(chat_id);
     }
 }

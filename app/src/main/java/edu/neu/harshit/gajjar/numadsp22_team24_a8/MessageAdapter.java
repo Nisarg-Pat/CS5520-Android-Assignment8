@@ -1,6 +1,8 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Message> messageList;
     static int ITEM_RECEIVE = 1;
     static int ITEM_SENT = 2;
+    String loginUserName = "Sean";
 
     public MessageAdapter(Context context, List<Message> messageList) {
         this.context = context;
@@ -25,15 +28,28 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
-//        return new ChatViewHolder(LayoutInflater.from(context).inflate(R.layout.chat_row, parent,false));
-        //
+        if (viewType == 1){
+            View view = LayoutInflater.from(context).inflate(R.layout.receive, parent,false);
+            return new ReceiveViewHolder(view);
+        }
+        else{
+            View view = LayoutInflater.from(context).inflate(R.layout.sent, parent,false);
+            return new SendViewHolder(view);
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
         Message currentMessage = messageList.get(position);
-        return 1;
+        // ------------------Change currentUserName to the username logged into Firebase-----------------
+        Log.d("currentMessageUserName",currentMessage.getUsername());
+        if (currentMessage.getUsername().equals(loginUserName)){
+            Log.d("currentMessageUserName",currentMessage.getUsername());
+            return ITEM_SENT;
+        }
+        else{
+            return ITEM_RECEIVE;
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,16 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
         }
     }
 
+    private final StickerDialog dialog;
     private final Context context;
     private final List<Sticker> stickers;
     int selectedSticker;
-    public StickerAdapter(Context context, List<Sticker> stickers) {
+    public StickerAdapter(Context context, List<Sticker> stickers, StickerDialog dialog) {
+
         this.context = context;
         this.stickers = stickers;
         this.selectedSticker = -1;
+        this.dialog = dialog;
     }
 
     @NonNull
@@ -44,27 +48,34 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
     public void onBindViewHolder(@NonNull StickerViewHolder holder, int position) {
         Sticker sticker = stickers.get(position);
         holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
-        holder.stickerIcon.setOnClickListener((v) -> {
-            if(selectedSticker == holder.getAdapterPosition()) {
-                sticker.setSelected(false);
-                selectedSticker = -1;
-            } else if (selectedSticker == -1) {
-                sticker.setSelected(true);
-            } else {
-                stickers.get(selectedSticker).setSelected(false);
-                sticker.setSelected(true);
-                notifyItemChanged(selectedSticker);
-            }
-            notifyItemChanged(holder.getAdapterPosition());
-            selectedSticker = holder.getAdapterPosition();
+        holder.stickerIcon.setOnClickListener(v -> {
+            holder.stickerCount.setText(String.valueOf(sticker.getCountSent()));
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", sticker.getId());
+            dialog.getParentFragmentManager().setFragmentResult("clicked_on_sticker",
+                    bundle);
         });
-        if(sticker.isSelected()) {
-            holder.stickerIcon.setBackground(AppCompatResources.getDrawable(context,
-                    R.drawable.onclick));
-        } else {
-            holder.stickerIcon.setBackgroundColor(Color.TRANSPARENT);
-        }
-        holder.stickerCount.setText(String.valueOf(sticker.getCountSent()));
+//        holder.stickerIcon.setOnClickListener((v) -> {
+//            if(selectedSticker == holder.getAdapterPosition()) {
+//                sticker.setSelected(false);
+//                selectedSticker = -1;
+//            } else if (selectedSticker == -1) {
+//                sticker.setSelected(true);
+//            } else {
+//                stickers.get(selectedSticker).setSelected(false);
+//                sticker.setSelected(true);
+//                notifyItemChanged(selectedSticker);
+//            }
+//            notifyItemChanged(holder.getAdapterPosition());
+//            selectedSticker = holder.getAdapterPosition();
+//        });
+//        if(sticker.isSelected()) {
+//            holder.stickerIcon.setBackground(AppCompatResources.getDrawable(context,
+//                    R.drawable.blue_border));
+//        } else {
+//            holder.stickerIcon.setBackgroundColor(Color.TRANSPARENT);
+//        }
+
     }
 
     @Override

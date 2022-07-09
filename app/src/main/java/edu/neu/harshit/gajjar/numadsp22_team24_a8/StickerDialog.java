@@ -33,8 +33,9 @@ public class StickerDialog extends BottomSheetDialogFragment {
         // get the views and attach the listener
         RecyclerView recyclerView = view.findViewById(R.id.sticker_recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false));
-        StickerAdapter adapter = new StickerAdapter(activity,stickerList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity,
+                LinearLayoutManager.HORIZONTAL,false));
+        StickerAdapter adapter = new StickerAdapter(activity,stickerList,this);
         recyclerView.setAdapter(adapter);
         return view;
     }

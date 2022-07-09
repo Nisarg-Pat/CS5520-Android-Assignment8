@@ -1,6 +1,7 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import androidx.appcompat.app.AppCompatActivity;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Implement Firebase login/signup logic
+
+                FirebaseDB.registerUser("nisargpatel@gmail.com", "123456", "Nisarg_Pat", LoginActivity.this);
+
                 Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
                 intent.putExtra("loginUserName", edit_login_username.getText().toString());
                 finish();

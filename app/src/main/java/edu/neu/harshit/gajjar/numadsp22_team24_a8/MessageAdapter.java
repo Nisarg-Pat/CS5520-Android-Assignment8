@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import pl.droidsonroids.gif.GifImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -46,8 +49,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Message currentMessage = messageList.get(position);
         // ------------------Change currentUserName to the username logged into Firebase-----------------
         Log.d("currentMessageUserName",currentMessage.getUsername());
-        if (currentMessage.getUsername().equals(loginUserName)){
-            Log.d("currentMessageUserName",currentMessage.getUsername());
+
+        if (currentMessage.getUsername().equals(FirebaseDB.currentUser.getUsername())){
+//            Log.d("currentMessageUserName",currentMessage.getUsername());
             return ITEM_SENT;
         }
         else{

@@ -124,6 +124,8 @@ public class ChatRoom extends AppCompatActivity {
                 messageAdpater = new MessageAdapter(ChatRoom.this,messageList);
                 chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
                 chatRoomRecyclerView.setAdapter(messageAdpater);
+                chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);
+
             }
 
             @Override

@@ -3,6 +3,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -73,8 +74,12 @@ public class FirebaseDB {
                     ref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Intent intent = new Intent(ct, ChatHistory.class);
-                            ct.startActivity(intent);
+                            if(task.isSuccessful()){
+                                Intent intent = new Intent(ct, ChatHistory.class);
+                                ct.startActivity(intent);
+                            } else {
+                                Toast.makeText(ct, "Error registering user!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }

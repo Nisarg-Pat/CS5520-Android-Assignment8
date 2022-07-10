@@ -1,6 +1,7 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import androidx.appcompat.app.AppCompatActivity;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +26,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Implement Firebase signup logic
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
+                FirebaseDB.registerUser(edit_signup_username.getText().toString()+"@puddle.com", "123456",edit_signup_username.getText().toString(), SignupActivity.this);
             }
         });
     }

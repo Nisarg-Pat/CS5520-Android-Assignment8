@@ -117,8 +117,6 @@ public class ChatHistory extends AppCompatActivity {
     public void populateChatList(){
         chatMap.clear();
         for(User user: allUsers){
-//            chatList.add(new Message("2022 Jun 24", user.getUsername(), R.drawable.sticker1));
-
             String chatId = Util.generateChatID(FirebaseDB.currentUser.getUsername(), user.getUsername());
             DatabaseReference ref = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatId);
             ref.limitToLast(1).addValueEventListener(new ValueEventListener() {

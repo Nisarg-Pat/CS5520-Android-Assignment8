@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 import pl.droidsonroids.gif.GifImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -62,7 +63,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder.getClass() == SendViewHolder.class){
             SendViewHolder viewHolder = (SendViewHolder) holder;
             Message currentMessage = messageList.get(position);
-            viewHolder.sent_datetime.setText(currentMessage.getDatetime());
+            viewHolder.sent_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
             viewHolder.sent_username.setText(currentMessage.getUsername());
             viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
         }

@@ -31,7 +31,8 @@ public class StickerNotification {
                 .setContentText("New Sticker!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(activity);
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(activity);
         notificationManager.notify(NOTIFICATION_ID,builder.build());
     }
 

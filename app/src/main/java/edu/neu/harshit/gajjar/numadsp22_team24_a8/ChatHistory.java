@@ -15,14 +15,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 import pl.droidsonroids.gif.GifImageView;
 public class ChatHistory extends AppCompatActivity {
     private RecyclerView chatRecyclerView;
@@ -119,11 +122,30 @@ public class ChatHistory extends AppCompatActivity {
     }
 
     public void populateChatList(){
+        chatList.clear();
         for(User user: allUsers){
-            chatList.add(new Message("2022 Jun 24", user.getUsername(), R.drawable.sticker1));
+//            chatList.add(new Message("2022 Jun 24", user.getUsername(), R.drawable.sticker1));
+
+            String chatId = Util.generateChatID(FirebaseDB.currentUser.getUsername(), user.getUsername());
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("chats").child(chatId);;
+            ref.limitToLast(1).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot snap: snapshot.getChildren()){
+                        MessageHistory msg = (MessageHistory) snap.getValue(MessageHistory.class);
+                        chatList.add(new Message(msg.getTimestamp(), user.getUsername(), Integer.valueOf(msg.getMessage())));
+                    }
+
+                    chatAdapter = new ChatAdapter(ChatHistory.this, chatList);
+                    chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
+                    chatRecyclerView.setAdapter(chatAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
-        chatAdapter = new ChatAdapter(this, chatList);
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        chatRecyclerView.setAdapter(chatAdapter);
     }
 }

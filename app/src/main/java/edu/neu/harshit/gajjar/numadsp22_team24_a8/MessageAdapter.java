@@ -48,10 +48,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int getItemViewType(int position) {
         Message currentMessage = messageList.get(position);
         // ------------------Change currentUserName to the username logged into Firebase-----------------
-        Log.d("currentMessageUserName",currentMessage.getUsername());
-
         if (currentMessage.getUsername().equals(FirebaseDB.currentUser.getUsername())){
-//            Log.d("currentMessageUserName",currentMessage.getUsername());
             return ITEM_SENT;
         }
         else{

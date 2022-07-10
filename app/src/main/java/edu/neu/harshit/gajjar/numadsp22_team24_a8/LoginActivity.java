@@ -14,14 +14,34 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private Button button_login, button_signup;
     private TextInputEditText edit_login_username;
+
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = auth.getCurrentUser();
+
+        // checking for users existence: Saving the current user
+        if(firebaseUser != null){
+            startActivity(new Intent(LoginActivity.this, ChatHistory.class));
+            finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        auth = FirebaseAuth.getInstance();
 
         button_login = findViewById(R.id.button_login);
         button_signup = findViewById(R.id.button_signup);
@@ -35,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //                FirebaseDB.logIn("hrstgajjar3@gmail.com", "123456", LoginActivity.this);
 
-                FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword("hrstgajjar3@gmail.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword(edit_login_username.getText().toString()+"@puddle.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){

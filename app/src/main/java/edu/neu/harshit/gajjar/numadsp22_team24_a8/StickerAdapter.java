@@ -50,7 +50,9 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
                     get(holder.getAdapterPosition()).getName());
             intent.putExtra("count",stickers.
                     get(holder.getAdapterPosition()).getCountSent());
-            activity.setResult(1,intent);
+            intent.putExtra("id",String.valueOf(stickers.
+                    get(holder.getAdapterPosition()).getId()));
+            activity.setResult(Activity.RESULT_OK,intent);
             activity.finish();
         });
     }

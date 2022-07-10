@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
@@ -29,7 +30,7 @@ import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 import pl.droidsonroids.gif.GifImageView;
 public class ChatHistory extends AppCompatActivity {
     private RecyclerView chatRecyclerView;
-    private List<Message> chatList;
+    private Map<String, Message> chatMap;
     private ChatAdapter chatAdapter;
     private String loginUserName;
 
@@ -53,20 +54,10 @@ public class ChatHistory extends AppCompatActivity {
         loginUserName = intent.getStringExtra("currentUserName");
 
         // Test Data for Front End --> To be replaced by populating the list from Firebase data
-        chatList = new ArrayList<Message>();
-//        chatList.add(new Message("2022 Jun 24", "Alan", R.drawable.sticker1));
-//        chatList.add(new Message("2022 Jun 25", "Bob", R.drawable.sticker2));
-//        chatList.add(new Message("2022 Jun 26", "Chase", R.drawable.sticker3));
-//        chatList.add(new Message("2022 Jun 27", "Dylan", R.drawable.sticker4));
-//        chatList.add(new Message("2022 Jun 28", "Frank", R.drawable.sticker5));
+        chatMap = new HashMap<>();
 
         setContentView(R.layout.chat_history);
-//        chatAdapter = new ChatAdapter(this, chatList);
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
-//        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        chatRecyclerView.setAdapter(chatAdapter);
-
-        // Implement addValueEventListener for Firebase data
         getAllUsers();
     }
 
@@ -78,7 +69,7 @@ public class ChatHistory extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.logout){
+        if (item.getItemId() == R.id.logout) {
             // Logout
             FirebaseDB.logout();
             Intent intent = new Intent(ChatHistory.this, LoginActivity.class);
@@ -122,21 +113,21 @@ public class ChatHistory extends AppCompatActivity {
     }
 
     public void populateChatList(){
-        chatList.clear();
+        chatMap.clear();
         for(User user: allUsers){
 //            chatList.add(new Message("2022 Jun 24", user.getUsername(), R.drawable.sticker1));
 
             String chatId = Util.generateChatID(FirebaseDB.currentUser.getUsername(), user.getUsername());
-            DatabaseReference ref = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatId);;
+            DatabaseReference ref = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatId);
             ref.limitToLast(1).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot snap: snapshot.getChildren()){
                         MessageHistory msg = (MessageHistory) snap.getValue(MessageHistory.class);
-                        chatList.add(new Message(msg.getTimestamp(), user.getUsername(), Integer.valueOf(msg.getMessage())));
+                        chatMap.put(chatId, new Message(msg.getTimestamp(), user.getUsername(), Integer.valueOf(msg.getMessage())));
                     }
 
-                    chatAdapter = new ChatAdapter(ChatHistory.this, chatList);
+                    chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
                     chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
                     chatRecyclerView.setAdapter(chatAdapter);
                 }

@@ -22,6 +22,7 @@ import edu.neu.harshit.gajjar.numadsp22_team24_a8.ChatHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.LoginActivity;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.R;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.SignupActivity;
 
 public class FirebaseDB {
 
@@ -56,18 +57,24 @@ public class FirebaseDB {
                     hashMap.put("imageURL", "default");
 
                     HashMap<String, String> imageCount = new HashMap<>();
-                    imageCount.put("bear", "0");
-                    imageCount.put("duck", "0");
-                    imageCount.put("rabbit", "0");
-                    imageCount.put("swan", "0");
-                    imageCount.put("owl", "0");
+                    imageCount.put("sticker1", "0");
+                    imageCount.put("sticker2", "0");
+                    imageCount.put("sticker3", "0");
+                    imageCount.put("sticker4", "0");
+                    imageCount.put("sticker5", "0");
+                    imageCount.put("sticker6", "0");
+                    imageCount.put("sticker7", "0");
+                    imageCount.put("sticker8", "0");
+                    imageCount.put("sticker9", "0");
+                    imageCount.put("sticker10", "0");
 
                     hashMap.put("image_count", imageCount);
 
                     ref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-
+                            Intent intent = new Intent(ct, ChatHistory.class);
+                            ct.startActivity(intent);
                         }
                     });
                 }

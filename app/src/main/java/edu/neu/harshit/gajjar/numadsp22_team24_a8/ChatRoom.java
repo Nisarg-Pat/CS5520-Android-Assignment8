@@ -1,11 +1,10 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
@@ -16,10 +15,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,9 +49,7 @@ public class ChatRoom extends AppCompatActivity {
                             int count = intent.getIntExtra("count", 0);
                             sendMessageToFirebase(id, name, count);
                         }
-
-                    }
-                            );
+                    });
 
     // Receiver Username
     String receiverName;
@@ -61,6 +58,12 @@ public class ChatRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chatroom);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         this.activity = this;
         Intent intent = getIntent();
         receiver = intent.getStringExtra("currentUserName");
@@ -73,7 +76,6 @@ public class ChatRoom extends AppCompatActivity {
             Intent stickerIntent = new Intent(activity, StickerActivity.class);
             resultLauncher.launch(stickerIntent);
         });
-
         messageList = new ArrayList<Message>();
 
         fetchChatHistory();
@@ -99,7 +101,6 @@ public class ChatRoom extends AppCompatActivity {
 
         String chat_id = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
         reference.child(getString(R.string.chat)).child(chat_id).push().setValue(hashMap);
-
         FirebaseDB.getDataReference(getString(R.string.user_db)).child(FirebaseDB.getCurrentUser().getUid())
                 .child("image_count")
                 .child(stickerName)
@@ -118,14 +119,18 @@ public class ChatRoom extends AppCompatActivity {
                     MessageHistory history = (MessageHistory) snap.getValue(MessageHistory.class);
 
                     if(history != null){
-                        messageList.add(new Message(history.getTimestamp(), history.getSender(), Integer.valueOf(history.getMessage())));
+                        messageList.add(new Message(history.getTimestamp(),
+                                history.getSender(), Integer.valueOf(history.getMessage())));
+                        if (!Util.generateChatID(history.getSender(), history.getReceiver()).equals(chatid)){
+                            notification.createNotification(history.getReceiver());
+                        }
                     }
                 }
+
                 messageAdpater = new MessageAdapter(ChatRoom.this,messageList);
                 chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
                 chatRoomRecyclerView.setAdapter(messageAdpater);
                 chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);
-
             }
 
             @Override
@@ -133,5 +138,11 @@ public class ChatRoom extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

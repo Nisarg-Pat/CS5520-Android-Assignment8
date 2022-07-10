@@ -16,9 +16,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
-
-//        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-//        db.child("sean1").child("123").setValue("Hello world");
-//        db.child("sean2").child("123").setValue("Hello world");
     }
 }

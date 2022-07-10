@@ -2,11 +2,11 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,11 +14,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.installations.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
@@ -37,6 +35,12 @@ public class StickerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sticker_layout);
         this.notification = new StickerNotification(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_stickers);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         Map<String, Sticker> stickerList = new HashMap<>();
         this.fab = findViewById(R.id.fab1);
         fab.setVisibility(View.INVISIBLE);
@@ -74,5 +78,11 @@ public class StickerActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

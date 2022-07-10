@@ -2,6 +2,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +45,8 @@ public class ChatHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chathistory);
+        setSupportActionBar(toolbar);
         Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
 
         // Initialization
@@ -124,9 +126,12 @@ public class ChatHistory extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot snap: snapshot.getChildren()){
                         MessageHistory msg = (MessageHistory) snap.getValue(MessageHistory.class);
-                        chatMap.put(chatId, new Message(msg.getTimestamp(), user.getUsername(), Integer.valueOf(msg.getMessage())));
+                        chatMap.put(chatId, new Message(msg.getTimestamp(),
+                                user.getUsername(),
+                                Integer.valueOf(msg.getMessage())));
                     }
-
+                    chatMap.put("Chris_Sean", new Message("12 20 22","Sean",R.drawable.sticker1));
+                    chatMap.put("Chris_Nisarg", new Message("12 20 22","Nisarg",R.drawable.sticker1));
                     chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
                     chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
                     chatRecyclerView.setAdapter(chatAdapter);

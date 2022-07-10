@@ -7,4 +7,6 @@
     <string name="user_db">users</string>
     <string name="chat">chats</string>
     <string name="send_sticker">Send Sticker</string>
+    <string name="add_sticker">Add Sticker</string>
+    <string name="confirm_sending_a_sticker">Send Sticker</string>
 </resources>

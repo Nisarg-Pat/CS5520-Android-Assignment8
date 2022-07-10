@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.List;
+
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 import pl.droidsonroids.gif.GifImageView;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
     private Context context;
@@ -34,7 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Message currentMessage = messageList.get(position);
-        holder.chat_text_datetime.setText(currentMessage.getDatetime());
+        holder.chat_text_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
         holder.chat_text_username.setText(currentMessage.getUsername());
         holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
         holder.itemView.setOnClickListener((View v)->{

@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,7 +96,7 @@ public class ChatRoom extends AppCompatActivity {
         hashMap.put("message", stickerId);
         hashMap.put("senderID", FirebaseDB.currentUser.getId());
 //        hashMap.put("receiverID", receiverUserId);
-        hashMap.put("timestamp", Util.getGMTTimestamp());
+        hashMap.put("timestamp", Instant.now().toString()); //
 
         String chat_id = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
         reference.child(getString(R.string.chat)).child(chat_id).push().setValue(hashMap);

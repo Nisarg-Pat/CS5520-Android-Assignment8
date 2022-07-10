@@ -122,7 +122,8 @@ public class ChatRoom extends AppCompatActivity {
                     if(history != null){
                         messageList.add(new Message(history.getTimestamp(),
                                 history.getSender(), Integer.valueOf(history.getMessage())));
-                        if (!Util.generateChatID(history.getSender(), history.getReceiver()).equals(chatid)){
+                        if (!Util.generateChatID(history.getSender(),
+                                history.getReceiver()).equals(chatid)) {
                             notification.createNotification(history.getReceiver());
                         }
                     }

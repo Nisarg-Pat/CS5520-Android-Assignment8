@@ -46,7 +46,9 @@ public class ChatRoom extends AppCompatActivity {
                         if(result.getResultCode() == RESULT_OK) {
                             Intent intent = result.getData();
                             String id = intent.getStringExtra("id");
-                            sendMessageToFirebase(id);
+                            String name = intent.getStringExtra("name");
+                            int count = intent.getIntExtra("count", 0);
+                            sendMessageToFirebase(id, name, count);
                         }
 
                     }
@@ -81,7 +83,7 @@ public class ChatRoom extends AppCompatActivity {
 
     }
 
-    public void sendMessageToFirebase(String stickerId){
+    public void sendMessageToFirebase(String stickerId, String stickerName, int count){
         Log.i("current_username", FirebaseDB.currentUser.getUsername());
         Log.i("receiver_username", receiverName);
 
@@ -97,6 +99,11 @@ public class ChatRoom extends AppCompatActivity {
 
         String chat_id = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
         reference.child(getString(R.string.chat)).child(chat_id).push().setValue(hashMap);
+
+        FirebaseDB.getDataReference(getString(R.string.user_db)).child(FirebaseDB.getCurrentUser().getUid())
+                .child("image_count")
+                .child(stickerName)
+                .setValue(String.valueOf(count + 1));
     }
 
     public void fetchChatHistory(){

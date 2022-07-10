@@ -69,6 +69,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
     @Override
     public void onBindViewHolder(@NonNull StickerViewHolder holder, int position) {
         Sticker sticker = stickers.get(position);
+        holder.stickerCount.setText(String.valueOf(sticker.getCountSent()));
         holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
         holder.stickerIcon.setOnClickListener((v) -> {
             if(selectedSticker == holder.getAdapterPosition() && sticker.isSelected()) {

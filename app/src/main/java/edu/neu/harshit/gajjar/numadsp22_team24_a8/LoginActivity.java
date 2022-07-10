@@ -50,11 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implement Firebase login/signup logic
-//                FirebaseDB.registerUser("chriss@gmail.com", "123456", "Chris_Schelb", LoginActivity.this);
-
-//                FirebaseDB.logIn("hrstgajjar3@gmail.com", "123456", LoginActivity.this);
-
                 FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword(edit_login_username.getText().toString()+"@puddle.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -70,20 +65,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
-//                Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
-//                intent.putExtra("loginUserName", edit_login_username.getText().toString());
-//                finish();
-//                startActivity(intent);
             }
         });
 
         button_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implement Firebase login/signup logic
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }

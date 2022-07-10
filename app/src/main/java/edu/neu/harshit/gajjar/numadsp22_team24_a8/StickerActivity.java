@@ -29,11 +29,12 @@ public class StickerActivity extends AppCompatActivity {
         List<Sticker> stickerList = new ArrayList<>();
         this.fab = findViewById(R.id.fab1);
         fab.setVisibility(View.INVISIBLE);
-        for (int Id:
-                STICKER_IDS) {
+
+        for (int i = 0;i<10;i++){
             // This needs to be changed to reflect the stored count in the db
-            stickerList.add(new Sticker("",Id,0));
+            stickerList.add(new Sticker("sticker"+(i+1),STICKER_IDS[i],0));
         }
+
         RecyclerView recyclerView = findViewById(R.id.sticker_recycler_view);
         recyclerView.setHasFixedSize(true);
         int orientation = getResources().getConfiguration().orientation;

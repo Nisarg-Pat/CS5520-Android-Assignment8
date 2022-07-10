@@ -29,9 +29,9 @@ public class ChatRoom extends AppCompatActivity {
             registerForActivityResult(new
                             ActivityResultContracts.StartActivityForResult(),
                     result ->
-                            // Result of the sticker activity, use this to pull stickerID
-                            Log.d("here", result.getData().getExtras().
-                                    get("stickerID").toString()));
+                            // Result of the sticker activity. use "name" and "count" to pull extras
+                            Log.d("here",result.getData().getExtras().
+                                    get("name").toString()));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

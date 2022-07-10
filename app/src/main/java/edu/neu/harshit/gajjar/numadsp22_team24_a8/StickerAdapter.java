@@ -46,8 +46,10 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
         this.fab = activity.findViewById(R.id.fab1);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.putExtra("stickerID",stickers.
-                    get(holder.getAdapterPosition()).getId());
+            intent.putExtra("name",stickers.
+                    get(holder.getAdapterPosition()).getName());
+            intent.putExtra("count",stickers.
+                    get(holder.getAdapterPosition()).getCountSent());
             activity.setResult(1,intent);
             activity.finish();
         });

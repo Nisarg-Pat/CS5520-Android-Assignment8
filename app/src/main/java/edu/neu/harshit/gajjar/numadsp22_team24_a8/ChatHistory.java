@@ -45,6 +45,7 @@ public class ChatHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.chat_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chathistory);
         setSupportActionBar(toolbar);
         Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
@@ -58,7 +59,6 @@ public class ChatHistory extends AppCompatActivity {
         // Test Data for Front End --> To be replaced by populating the list from Firebase data
         chatMap = new HashMap<>();
 
-        setContentView(R.layout.chat_history);
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
         getAllUsers();
     }
@@ -128,8 +128,6 @@ public class ChatHistory extends AppCompatActivity {
                                 user.getUsername(),
                                 Integer.valueOf(msg.getMessage())));
                     }
-                    chatMap.put("Chris_Sean", new Message("2022-07-08T19:27:25.099Z","Sean",R.drawable.sticker1));
-                    chatMap.put("Chris_Nisarg", new Message("2022-07-08T19:27:25.099Z","Nisarg",R.drawable.sticker1));
                     chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
                     chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
                     chatRecyclerView.setAdapter(chatAdapter);

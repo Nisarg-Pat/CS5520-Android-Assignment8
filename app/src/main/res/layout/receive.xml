@@ -12,50 +12,50 @@
     android:layout_marginTop="5dp">
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/receive_message_shape"
+        android:orientation="vertical"
+        android:padding="10dp">
+
         <LinearLayout
-            android:background="@drawable/receive_message_shape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/receive_username"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/receive_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Michael Jordan"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
-
-                <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/receive_sticker"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#fff"
-                    android:src="@drawable/sticker1" />
-
-
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:text="Michael Jordan"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/receive_datetime"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:padding="8dp"
                 android:text="Jun 2 Sun"
                 android:textAlignment="viewEnd"
                 android:textStyle="bold" />
 
+
         </LinearLayout>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/receive_sticker"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="#fff"
+            android:padding="8dp"
+            android:src="@drawable/sticker1" />
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

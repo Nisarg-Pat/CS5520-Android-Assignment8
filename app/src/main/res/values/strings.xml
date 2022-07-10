@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NumadSP22_Team24_A8</string>
+    <string name="app_name">Puddle V1</string>
     <string name="helper_text_login">Max Length: 15 characters</string>
     <string name="channel_name">Channel 1</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

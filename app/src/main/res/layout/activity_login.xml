@@ -6,18 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+
+    <Button
+        android:id="@+id/button_login"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:backgroundTint="#C1D4FF"
+        android:text="Login"
+        android:textColor="#5183F7"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_signup"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_username"
+        app:layout_constraintVertical_bias="0.195" />
+
+
+    <Button
+        android:id="@+id/button_signup"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#C1D4FF"
+        android:text="Signup"
+        android:textColor="#5183F7"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_login"
+        app:layout_constraintTop_toTopOf="@+id/button_login" />
+
     <ImageView
         android:id="@+id/app_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/img"
+        android:src="@drawable/icon_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.145" />
+        app:layout_constraintVertical_bias="0.125" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_username"
@@ -38,8 +75,8 @@
         app:boxStrokeWidth="3dp"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:counterTextAppearance="@style/HelperTextAppearance"
         app:counterOverflowTextColor="@android:color/holo_red_light"
+        app:counterTextAppearance="@style/HelperTextAppearance"
         app:helperText="@string/helper_text_login"
         app:helperTextEnabled="true"
         app:helperTextTextAppearance="@style/HelperTextAppearance"
@@ -60,21 +97,4 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/button_login_singup"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_username"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#C1D4FF"
-        android:text="Signup/Login"
-        android:textColor="#5183F7"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,29 +4,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10sp"
-    android:layout_marginEnd="10sp"
+    android:padding="15sp"
     >
 
     <TextView
         android:id="@+id/sticker_count_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="32sp"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_margin="8sp"
+        android:background="@drawable/count_shape"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="99"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <pl.droidsonroids.gif.GifImageView
-        android:background="?selectableItemBackground"
         android:id="@+id/sticker_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:src="@drawable/sticker1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-       />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

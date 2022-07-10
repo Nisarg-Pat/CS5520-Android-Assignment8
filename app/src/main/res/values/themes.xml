@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:editTextColor">@null</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.Actionbar</item>
     </style>
 
 
@@ -39,5 +40,8 @@
         <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
+    <style name="ThemeOverlay.Actionbar" parent="ThemeOverlay.MaterialComponents.ActionBar.Surface" >
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
 
 </resources>

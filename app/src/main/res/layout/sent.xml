@@ -13,46 +13,48 @@
 
             <LinearLayout
                 android:background="@drawable/send_message_shape"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:orientation="horizontal">
 
                     <!-- Title, secondary and supporting text -->
                     <TextView
                         android:id="@+id/sent_username"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
                         android:text="Michael Jordan"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/black"
                         android:textStyle="bold"/>
-
-                    <pl.droidsonroids.gif.GifImageView
-                        android:id="@+id/sent_sticker"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/sent_datetime"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="#fff"
-                        android:src="@drawable/sticker1" />
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:text="Jun 2 Sun"
+                        android:textAlignment="viewEnd"
+                        android:textStyle="bold"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/sent_datetime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/sent_sticker"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="#fff"
                     android:padding="8dp"
-                    android:text="Jun 2 Sun"
-                    android:textAlignment="viewEnd"
-                    android:textStyle="bold"/>
+                    android:layout_gravity="right"
+                    android:src="@drawable/sticker1" />
 
             </LinearLayout>
 

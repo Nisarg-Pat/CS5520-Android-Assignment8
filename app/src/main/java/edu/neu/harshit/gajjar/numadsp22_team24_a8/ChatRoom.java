@@ -1,8 +1,10 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
@@ -11,8 +13,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,9 +59,11 @@ public class ChatRoom extends AppCompatActivity {
 //        messageList.add(new Message("2022 Jun 27", "Sean", R.drawable.sticker6));
 //        messageList.add(new Message("2022 Jun 28", "Sean", R.drawable.sticker1));
 
-        messageAdpater = new MessageAdapter(this,messageList);
-        chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        chatRoomRecyclerView.setAdapter(messageAdpater);
+        fetchChatHistory();
+
+//        messageAdpater = new MessageAdapter(this,messageList);
+//        chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        chatRoomRecyclerView.setAdapter(messageAdpater);
 
         // Stickers
         this.notification = new StickerNotification(this);
@@ -86,7 +93,6 @@ public class ChatRoom extends AppCompatActivity {
 
     }
 
-
     public void sendMessageToFirebase(String stickerId){
         Log.i("current_username", FirebaseDB.currentUser.getUsername());
         Log.i("receiver_username", receiverName);
@@ -105,5 +111,32 @@ public class ChatRoom extends AppCompatActivity {
         reference.child(getString(R.string.chat)).child(chat_id).push().setValue(hashMap);
 
 //        ref.child(receiverUserId).child("chatIDs").push().setValue(chat_id);
+    }
+
+    public void fetchChatHistory(){
+        String chatid = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
+        DatabaseReference chatRef = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatid);
+
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messageList.clear();
+                for(DataSnapshot snap: snapshot.getChildren()){
+                    MessageHistory history = (MessageHistory) snap.getValue(MessageHistory.class);
+
+                    if(history != null){
+                        messageList.add(new Message(history.getTimestamp(), history.getSender(), Integer.valueOf(history.getMessage())));
+                    }
+                }
+                messageAdpater = new MessageAdapter(ChatRoom.this,messageList);
+                chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
+                chatRoomRecyclerView.setAdapter(messageAdpater);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

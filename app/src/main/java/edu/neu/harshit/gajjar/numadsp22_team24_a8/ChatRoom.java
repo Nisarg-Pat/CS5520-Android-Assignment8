@@ -147,4 +147,11 @@ public class ChatRoom extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ChatHistory.class);
+        startActivity(intent);
+
+    }
 }

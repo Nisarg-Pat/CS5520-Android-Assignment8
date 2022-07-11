@@ -37,7 +37,11 @@ public class NewChatActivity extends AppCompatActivity {
         setContentView(R.layout.user_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_new_chat);
         toolbar.setTitle("Contacts");
-        setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         userListRecyclerView = findViewById(R.id.user_list_recycler_view);
 
         allUsers = new ArrayList<>();
@@ -77,4 +81,11 @@ public class NewChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }

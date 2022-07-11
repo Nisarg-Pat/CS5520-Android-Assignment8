@@ -8,5 +8,6 @@
     app:title="Puddle"
     android:background="?attr/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 </androidx.appcompat.widget.Toolbar>

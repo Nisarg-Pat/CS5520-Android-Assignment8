@@ -76,6 +76,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int stickerId = stringIds.get(currentMessage.getSticker());
             viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
             Glide.with(context).load(AppCompatResources.getDrawable(context, stickerId)).into(viewHolder.sent_sticker);
+
         }
         else{
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;

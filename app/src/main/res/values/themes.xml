@@ -17,6 +17,7 @@
     </style>
 
 
+
     <style name="ErrorTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/teal_200</item>
         <item name="android:textSize">12sp</item>

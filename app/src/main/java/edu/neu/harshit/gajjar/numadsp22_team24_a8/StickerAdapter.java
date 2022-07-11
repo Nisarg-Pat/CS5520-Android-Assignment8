@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
     private final FloatingActionButton fab;
     private StickerViewHolder holder;
     private Activity activity;
+    private Handler hander = new Handler();
     int selectedSticker;
     public StickerAdapter(Context context, List<Sticker> stickers, Activity activity) {
         this.context = context;
@@ -47,14 +50,16 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
         this.fab = activity.findViewById(R.id.fab1);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.putExtra("name",stickers.
-                    get(holder.getAdapterPosition()).getName());
-            intent.putExtra("count",stickers.
-                    get(holder.getAdapterPosition()).getCountSent());
-            intent.putExtra("id",String.valueOf(stickers.
-                    get(holder.getAdapterPosition()).getId()));
-            activity.setResult(Activity.RESULT_OK,intent);
-            activity.finish();
+            if (selectedSticker != -1) {
+                intent.putExtra("name", stickers.
+                        get(selectedSticker).getName());
+                intent.putExtra("count", stickers.
+                        get(selectedSticker).getCountSent());
+                intent.putExtra("id", String.valueOf(stickers.
+                        get(selectedSticker).getId()));
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finish();
+            }
         });
     }
 
@@ -71,8 +76,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
     public void onBindViewHolder(@NonNull StickerViewHolder holder, int position) {
         Sticker sticker = stickers.get(position);
         holder.stickerCount.setText(String.valueOf(sticker.getCountSent()));
-//        holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
-        Glide.with(context).load(AppCompatResources.getDrawable(context,sticker.getId())).into(holder.stickerIcon);
+        holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
         holder.stickerIcon.setOnClickListener((v) -> {
             if(selectedSticker == holder.getAdapterPosition() && sticker.isSelected()) {
                 sticker.setSelected(false);
@@ -83,8 +87,8 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
             } else {
                 stickers.get(selectedSticker).setSelected(false);
                 sticker.setSelected(true);
-                notifyItemChanged(selectedSticker);
             }
+            notifyItemChanged(selectedSticker);
             notifyItemChanged(holder.getAdapterPosition());
             selectedSticker = holder.getAdapterPosition();
         });
@@ -92,6 +96,7 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
             fab.setVisibility(View.VISIBLE);
             holder.stickerIcon.setBackground(AppCompatResources.getDrawable(context,
                     R.drawable.send_message_shape));
+            Glide.with(context).load(AppCompatResources.getDrawable(context,sticker.getId())).into(holder.stickerIcon);
         } else {
             holder.stickerIcon.setBackgroundColor(Color.TRANSPARENT);
         }

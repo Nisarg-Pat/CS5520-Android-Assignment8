@@ -55,7 +55,6 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/icon_puddle"
-        android:tint="#678BFD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"

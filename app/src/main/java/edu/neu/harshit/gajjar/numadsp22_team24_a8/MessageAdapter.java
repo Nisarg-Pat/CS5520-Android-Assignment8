@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
@@ -24,13 +25,18 @@ import pl.droidsonroids.gif.GifImageView;
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<Message> messageList;
+    private HashMap<String, Integer> stringIds;
     static int ITEM_RECEIVE = 1;
     static int ITEM_SENT = 2;
     String loginUserName = "Sean";
 
-    public MessageAdapter(Context context, List<Message> messageList) {
+    public MessageAdapter(Context context, List<Message> messageList, HashMap<String, Integer> stringIds) {
         this.context = context;
         this.messageList = messageList;
+
+        this.stringIds = new HashMap<>();
+//        stringIds = Util.getStickerIds(context);
+        this.stringIds = stringIds;
     }
 
     @NonNull
@@ -66,16 +72,21 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Message currentMessage = messageList.get(position);
             viewHolder.sent_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
             viewHolder.sent_username.setText(currentMessage.getUsername());
-//            viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
-            Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(viewHolder.sent_sticker);
+//            Log.i("stickerid ", stringIds.get(currentMessage.getSticker()).toString());
+            int stickerId = stringIds.get(currentMessage.getSticker());
+            viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
+            Glide.with(context).load(AppCompatResources.getDrawable(context, stickerId)).into(viewHolder.sent_sticker);
         }
         else{
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
             Message currentMessage = messageList.get(position);
             viewHolder.receive_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
             viewHolder.receive_username.setText(currentMessage.getUsername());
-//            viewHolder.receive_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
-            Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(viewHolder.receive_sticker);
+            int stickerId = stringIds.get(currentMessage.getSticker());
+            viewHolder.receive_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
+//            Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(viewHolder.receive_sticker);
+
+            Glide.with(context).load(AppCompatResources.getDrawable(context, stickerId)).into(viewHolder.receive_sticker);
         }
 
 

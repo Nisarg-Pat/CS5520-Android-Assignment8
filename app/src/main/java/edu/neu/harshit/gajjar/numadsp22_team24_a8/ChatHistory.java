@@ -131,7 +131,7 @@ public class ChatHistory extends AppCompatActivity {
                         MessageHistory msg = (MessageHistory) snap.getValue(MessageHistory.class);
                         chatMap.put(chatId, new Message(msg.getTimestamp(),
                                 user.getUsername(),
-                                Integer.valueOf(msg.getMessage())));
+                                msg.getMessage()));
                     }
                     chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
                     chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));

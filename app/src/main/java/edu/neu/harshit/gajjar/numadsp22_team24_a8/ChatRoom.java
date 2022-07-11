@@ -48,6 +48,7 @@ public class ChatRoom extends AppCompatActivity {
                             String id = intent.getStringExtra("id");
                             String name = intent.getStringExtra("name");
                             int count = intent.getIntExtra("count", 0);
+                            Log.i("name is", name);
                             sendMessageToFirebase(id, name, count);
                         }
                     });
@@ -87,15 +88,12 @@ public class ChatRoom extends AppCompatActivity {
     }
 
     public void sendMessageToFirebase(String stickerId, String stickerName, int count){
-        Log.i("current_username", FirebaseDB.currentUser.getUsername());
-        Log.i("receiver_username", receiverName);
-
         DatabaseReference reference = FirebaseDB.getReferencetoRootDB();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", FirebaseDB.currentUser.getUsername());
         hashMap.put("receiver", receiverName);
-        hashMap.put("message", stickerId);
+        hashMap.put("message", stickerName); // stickerId
         hashMap.put("senderID", FirebaseDB.currentUser.getId());
 //        hashMap.put("receiverID", receiverUserId);
         hashMap.put("timestamp", Instant.now().toString()); //
@@ -121,7 +119,7 @@ public class ChatRoom extends AppCompatActivity {
 
                     if(history != null){
                         messageList.add(new Message(history.getTimestamp(),
-                                history.getSender(), Integer.valueOf(history.getMessage())));
+                                history.getSender(), history.getMessage()));
                         if (!Util.generateChatID(history.getSender(),
                                 history.getReceiver()).equals(chatid)) {
                             notification.createNotification(history.getReceiver());
@@ -129,7 +127,7 @@ public class ChatRoom extends AppCompatActivity {
                     }
                 }
 
-                messageAdpater = new MessageAdapter(ChatRoom.this,messageList);
+                messageAdpater = new MessageAdapter(ChatRoom.this,messageList, Util.getStickerIds(ChatRoom.this));
                 chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
                 chatRoomRecyclerView.setAdapter(messageAdpater);
                 chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);

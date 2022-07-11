@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
 import java.util.List;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
@@ -22,10 +23,13 @@ import pl.droidsonroids.gif.GifImageView;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
     private Context context;
     private List<Message> messageList;
+    private HashMap<String, Integer> stringIds;
 
     public ChatAdapter(Context context, List<Message> messageList) {
         this.context = context;
         this.messageList = messageList;
+        stringIds = new HashMap<>();
+        stringIds = Util.getStickerIds(context);
     }
 
     @NonNull
@@ -39,11 +43,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         Message currentMessage = messageList.get(position);
         holder.chat_text_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
         holder.chat_text_username.setText(currentMessage.getUsername());
-        holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
-        Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(holder.chat_sticker);
+        int stickerId = stringIds.get(currentMessage.getSticker());
+        holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
+        Glide.with(context).load(AppCompatResources.getDrawable(context,stickerId)).into(holder.chat_sticker);
         holder.itemView.setOnClickListener((View v)->{
 
-            Log.i("clicked user", currentMessage.getUsername().toString());
             Intent intent = new Intent(context, ChatRoom.class);
             intent.putExtra("currentUserName", currentMessage.getUsername().toString());
             intent.putExtra("clickedUserName", currentMessage.getUsername().toString());

@@ -1,5 +1,6 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -15,9 +16,31 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.TimeZone;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.R;
+
 public class Util {
+
+    public static HashMap<String, Integer> stickerIds;
+
+    public static HashMap<String, Integer> getStickerIds(Context ct){
+        stickerIds = new HashMap<>();
+        stickerIds.put("sticker1", R.drawable.sticker1);
+        stickerIds.put("sticker2", R.drawable.sticker2);
+        stickerIds.put("sticker3", R.drawable.sticker3);
+        stickerIds.put("sticker4", R.drawable.sticker4);
+        stickerIds.put("sticker5", R.drawable.sticker5);
+        stickerIds.put("sticker6", R.drawable.sticker6);
+        stickerIds.put("sticker7", R.drawable.sticker7);
+        stickerIds.put("sticker8", R.drawable.sticker8);
+        stickerIds.put("sticker9", R.drawable.sticker9);
+        stickerIds.put("sticker10", R.drawable.sticker10);
+
+        return stickerIds;
+    }
+
     public static String generateChatID(String user1, String user2){
         String chatId = "chat_";
         int compare_num = user1.compareTo(user2);

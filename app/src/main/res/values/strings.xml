@@ -10,4 +10,14 @@
     <string name="add_sticker">Add Sticker</string>
     <string name="confirm_sending_a_sticker">Send Sticker</string>
     <string name="new_chat">New Chat</string>
+    <string name="s1">Sticker 1</string>
+    <string name="s2">Sticker 2</string>
+    <string name="s3">Sticker 3</string>
+    <string name="s4">Sticker 4</string>
+    <string name="s5">Sticker 5</string>
+    <string name="s6">Sticker 6</string>
+    <string name="s7">Sticker 7</string>
+    <string name="s8">Sticker 8</string>
+    <string name="s9">Sticker 9</string>
+    <string name="s10">Sticker 10</string>
 </resources>

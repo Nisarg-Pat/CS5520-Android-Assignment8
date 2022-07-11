@@ -13,6 +13,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.chat_text_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
         holder.chat_text_username.setText(currentMessage.getUsername());
         holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
+        Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(holder.chat_sticker);
         holder.itemView.setOnClickListener((View v)->{
 
             Log.i("clicked user", currentMessage.getUsername().toString());
@@ -63,6 +65,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             chat_text_username = itemView.findViewById(R.id.chat_text_username);
             chat_text_datetime = itemView.findViewById(R.id.chat_text_datetime);
             chat_sticker = itemView.findViewById(R.id.chat_sticker);
+
         }
     }
 }

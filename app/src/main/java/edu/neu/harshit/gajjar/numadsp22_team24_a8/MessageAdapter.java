@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
@@ -65,15 +66,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Message currentMessage = messageList.get(position);
             viewHolder.sent_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
             viewHolder.sent_username.setText(currentMessage.getUsername());
-            viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
+//            viewHolder.sent_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
+            Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(viewHolder.sent_sticker);
         }
         else{
             ReceiveViewHolder viewHolder = (ReceiveViewHolder) holder;
             Message currentMessage = messageList.get(position);
             viewHolder.receive_datetime.setText(currentMessage.getDatetime());
             viewHolder.receive_username.setText(currentMessage.getUsername());
-            viewHolder.receive_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
+//            viewHolder.receive_sticker.setImageDrawable(AppCompatResources.getDrawable(context,currentMessage.getSticker()));
+            Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(viewHolder.receive_sticker);
         }
+
 
     }
 

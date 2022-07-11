@@ -11,30 +11,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
-import pl.droidsonroids.gif.GifImageView;
+
 public class ChatHistory extends AppCompatActivity {
     private RecyclerView chatRecyclerView;
     private Map<String, Message> chatMap;
     private ChatAdapter chatAdapter;
     private String loginUserName;
-
+    private FloatingActionButton newChatButton;
     // Firebase
     FirebaseUser currentUser;
     DatabaseReference userDbRef;
@@ -61,6 +61,11 @@ public class ChatHistory extends AppCompatActivity {
 
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
         getAllUsers();
+        newChatButton = findViewById(R.id.new_chat);
+        newChatButton.setOnClickListener(v -> {
+            Intent newChatIntent = new Intent(ChatHistory.this, NewChatActivity.class);
+            startActivity(newChatIntent);
+        });
     }
 
     @Override
@@ -140,4 +145,8 @@ public class ChatHistory extends AppCompatActivity {
             });
         }
     }
+    public void newChat(View view){
+
+    }
+
 }

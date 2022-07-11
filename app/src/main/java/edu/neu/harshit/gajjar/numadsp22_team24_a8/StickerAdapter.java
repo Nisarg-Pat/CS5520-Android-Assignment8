@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -70,7 +71,8 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
     public void onBindViewHolder(@NonNull StickerViewHolder holder, int position) {
         Sticker sticker = stickers.get(position);
         holder.stickerCount.setText(String.valueOf(sticker.getCountSent()));
-        holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
+//        holder.stickerIcon.setImageDrawable(AppCompatResources.getDrawable(context, sticker.getId()));
+        Glide.with(context).load(AppCompatResources.getDrawable(context,sticker.getId())).into(holder.stickerIcon);
         holder.stickerIcon.setOnClickListener((v) -> {
             if(selectedSticker == holder.getAdapterPosition() && sticker.isSelected()) {
                 sticker.setSelected(false);

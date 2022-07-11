@@ -9,4 +9,5 @@
     <string name="send_sticker">Send Sticker</string>
     <string name="add_sticker">Add Sticker</string>
     <string name="confirm_sending_a_sticker">Send Sticker</string>
+    <string name="new_chat">New Chat</string>
 </resources>

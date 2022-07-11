@@ -19,7 +19,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_chathistory"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="-50dp"
         tools:listitem="@layout/chat_row" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="newChat"
+        android:src="@drawable/ic_baseline_message_24"
+        app:tint="@android:color/white"
+        android:backgroundTint="@color/mtrl_textinput_default_box_stroke_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/new_chat"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +37,9 @@ public class ChatHistory extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private String loginUserName;
     private FloatingActionButton newChatButton;
+    private ProgressBar userListBar;
+    Handler visibilityHandler = new Handler();
+
     // Firebase
     FirebaseUser currentUser;
     DatabaseReference userDbRef;
@@ -51,16 +56,20 @@ public class ChatHistory extends AppCompatActivity {
         Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
 
         // Initialization
+        userListBar = findViewById(R.id.users_list_progress_bar);
         allUsers = new ArrayList<>();
-
         Intent intent = getIntent();
-        loginUserName = intent.getStringExtra("currentUserName");
 
-        // Test Data for Front End --> To be replaced by populating the list from Firebase data
+        loginUserName = intent.getStringExtra("currentUserName");
         chatMap = new HashMap<>();
 
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
-        getAllUsers();
+//        getAllUsers();
+
+        chatRecyclerView.setVisibility(View.GONE);
+        userListBar.setVisibility(View.VISIBLE);
+        new Thread(new ChatHistory.AllUsersListChats()).start();
+
         newChatButton = findViewById(R.id.new_chat);
         newChatButton.setOnClickListener(v -> {
             Intent newChatIntent = new Intent(ChatHistory.this, NewChatActivity.class);
@@ -105,7 +114,6 @@ public class ChatHistory extends AppCompatActivity {
                         FirebaseDB.currentUser = user;
                     }
                 }
-                Log.i("number of users", String.valueOf(allUsers.size()));
 
                 if(allUsers.size() > 0){
                     populateChatList();
@@ -133,9 +141,15 @@ public class ChatHistory extends AppCompatActivity {
                                 user.getUsername(),
                                 msg.getMessage()));
                     }
-                    chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
-                    chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
-                    chatRecyclerView.setAdapter(chatAdapter);
+
+                    visibilityHandler.post(() -> {
+                        chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
+                        chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
+                        chatRecyclerView.setAdapter(chatAdapter);
+
+                        userListBar.setVisibility(View.GONE);
+                        chatRecyclerView.setVisibility(View.VISIBLE);
+                    });
                 }
 
                 @Override
@@ -149,4 +163,11 @@ public class ChatHistory extends AppCompatActivity {
 
     }
 
+    class AllUsersListChats implements Runnable{
+
+        @Override
+        public void run() {
+            getAllUsers();
+        }
+    }
 }

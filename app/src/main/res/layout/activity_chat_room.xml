@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,15 +10,16 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:paddingBottom="10sp"
-        app:layout_constraintTop_toTopOf="@id/drawer_view"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/drawer_view">
 
         <include
             android:id="@+id/toolbar_chatroom"
@@ -26,26 +28,26 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/drawer_view" />
 
-        <!--    <RelativeLayout-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="match_parent"-->
-        <!--        tools:context=".ChatRoom"/>-->
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_room_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_chatroom" />
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/linearlayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:weightSum="100">-->
-<!--        </LinearLayout>-->
+        <!--    <RelativeLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--        tools:context=".ChatRoom"/>-->
+
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/linearlayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:weightSum="100">-->
+        <!--        </LinearLayout>-->
     </LinearLayout>
 
 
@@ -62,4 +64,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/send_sticker"/>
+
+    <ProgressBar
+        android:id="@+id/msg_history_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

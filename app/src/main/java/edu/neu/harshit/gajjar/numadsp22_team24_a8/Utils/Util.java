@@ -105,9 +105,13 @@ public class Util {
         String currentDay = currentDate.split("-")[2];
         String dateToShow = "";
 
-        if(currentDate.equals(dateTime[0])){
+        String[] dbDateTime = utc.split("T");
+        String[] dbDate = dbDateTime[0].split("-");
+        String[] dbTime = dbDateTime[1].split("-");
+
+        if(currentDate.equals(dbDateTime[0])){
             dateToShow += "Today";
-        } else if(Integer.valueOf(currentDay) - 1 == Integer.valueOf(date[2])){
+        } else if(Integer.valueOf(currentDay) - 1 == Integer.valueOf(dbDate[2])){
             dateToShow += "Yesterday";
         } else {
             dateToShow += date[0] + " ";

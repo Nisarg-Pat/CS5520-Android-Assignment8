@@ -16,7 +16,10 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,6 +44,9 @@ public class ChatRoom extends AppCompatActivity {
     private StickerNotification notification;
     private FloatingActionButton fab;
     private Activity activity;
+    ProgressBar messageHistoryBar;
+    Handler visibilityHandler = new Handler();
+
     private ActivityResultLauncher<Intent> resultLauncher =
             registerForActivityResult(new
                             ActivityResultContracts.StartActivityForResult(),
@@ -64,6 +70,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chatroom);
+
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -76,6 +83,11 @@ public class ChatRoom extends AppCompatActivity {
         getSupportActionBar().setTitle(receiver);
 
         chatRoomRecyclerView = findViewById(R.id.chat_room_recycler_view);
+        messageHistoryBar = findViewById(R.id.msg_history_progress_bar);
+
+        chatRoomRecyclerView.setVisibility(View.GONE);
+        messageHistoryBar.setVisibility(View.VISIBLE);
+
         this.fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             Intent stickerIntent = new Intent(activity, StickerActivity.class);
@@ -83,7 +95,8 @@ public class ChatRoom extends AppCompatActivity {
         });
         messageList = new ArrayList<Message>();
 
-        fetchChatHistory();
+//        fetchChatHistory();
+        new Thread(new ChatRoom.GetAllChats()).start();
 
         // Stickers
         this.notification = new StickerNotification(this);
@@ -174,6 +187,15 @@ public class ChatRoom extends AppCompatActivity {
                 chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
                 chatRoomRecyclerView.setAdapter(messageAdpater);
                 chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);
+                visibilityHandler.post(() -> {
+                    messageAdpater = new MessageAdapter(ChatRoom.this,messageList, Util.getStickerIds(ChatRoom.this));
+                    chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
+                    chatRoomRecyclerView.setAdapter(messageAdpater);
+                    chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);
+
+                    chatRoomRecyclerView.setVisibility(View.VISIBLE);
+                    messageHistoryBar.setVisibility(View.GONE);
+                });
             }
 
             @Override
@@ -194,5 +216,13 @@ public class ChatRoom extends AppCompatActivity {
         Intent intent = new Intent(this, ChatHistory.class);
         startActivity(intent);
 
+    }
+
+    class GetAllChats implements Runnable{
+
+        @Override
+        public void run() {
+            fetchChatHistory();
+        }
     }
 }

@@ -3,6 +3,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.util.Log;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -106,10 +109,53 @@ public class ChatRoom extends AppCompatActivity {
                 .setValue(String.valueOf(count + 1));
     }
 
+    public void addNotificationListener(String chatId){
+        DatabaseReference fullchatRef = FirebaseDB.getDataReference(getString(R.string.chat));
+        fullchatRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String sender = "", receiver = "", stickerID = "";
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    MessageHistory msg = snapshot1.getValue(MessageHistory.class);
+                    if (msg != null) {
+                        sender = msg.getSender();
+                        receiver = msg.getReceiver();
+                        stickerID = msg.getMessage();
+                    }
+                }
+                String externalChatID = Util.generateChatID(sender, receiver);
+                if (!externalChatID.equals(chatId)) {
+                    int id = getApplicationContext().getResources().getIdentifier(stickerID,"drawable",getApplicationContext().getPackageName());
+                    notification.createNotification(sender,id);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void fetchChatHistory(){
         String chatid = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
         DatabaseReference chatRef = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatid);
-
+        addNotificationListener(chatid);
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -120,14 +166,11 @@ public class ChatRoom extends AppCompatActivity {
                     if(history != null){
                         messageList.add(new Message(history.getTimestamp(),
                                 history.getSender(), history.getMessage()));
-                        if (!Util.generateChatID(history.getSender(),
-                                history.getReceiver()).equals(chatid)) {
-                            notification.createNotification(history.getReceiver());
-                        }
                     }
                 }
 
-                messageAdpater = new MessageAdapter(ChatRoom.this,messageList, Util.getStickerIds(ChatRoom.this));
+                messageAdpater = new MessageAdapter(ChatRoom.this,messageList,
+                        Util.getStickerIds(ChatRoom.this));
                 chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
                 chatRoomRecyclerView.setAdapter(messageAdpater);
                 chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);

@@ -140,6 +140,10 @@ public class ChatRoom extends AppCompatActivity {
                     }
                 }
 
+                if(messageList.size() == 0){
+                    messageHistoryBar.setVisibility(View.GONE);
+                }
+
                 visibilityHandler.post(() -> {
                     messageAdpater = new MessageAdapter(ChatRoom.this,messageList, Util.getStickerIds(ChatRoom.this));
                     chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));

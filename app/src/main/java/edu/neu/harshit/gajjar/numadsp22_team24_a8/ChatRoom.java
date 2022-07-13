@@ -14,6 +14,7 @@ import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,12 +24,10 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
@@ -68,8 +67,11 @@ public class ChatRoom extends AppCompatActivity {
             String externalChatID = Util.generateChatID(sender, receiver);
             Log.d("externalchatID", externalChatID);
             Log.d("chatID", chatId);
-            if (!externalChatID.equals(chatId) && receiver.equals(FirebaseDB.currentUser.getUsername())) {
-                int id = getApplicationContext().getResources().getIdentifier(stickerID, "drawable", getApplicationContext().getPackageName());
+
+            boolean matches = receiver.equals(FirebaseDB.currentUser.getUsername());
+            if ((!externalChatID.equals(chatId) && matches) || (!Util.isForeground && matches)) {
+                int id = getApplicationContext().getResources().getIdentifier(stickerID, "drawable",
+                        getApplicationContext().getPackageName());
                 notification.createNotification(sender, id);
             }
         }
@@ -148,7 +150,6 @@ public class ChatRoom extends AppCompatActivity {
 
     }
 
-
     public void sendMessageToFirebase(String stickerId, String stickerName, int count){
         DatabaseReference reference = FirebaseDB.getReferencetoRootDB();
 
@@ -211,6 +212,18 @@ public class ChatRoom extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        Util.isForeground = false;
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        Util.isForeground = true;
+        super.onStart();
     }
 
     @Override

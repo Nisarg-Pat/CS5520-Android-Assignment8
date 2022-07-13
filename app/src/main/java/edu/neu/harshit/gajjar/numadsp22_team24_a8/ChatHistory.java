@@ -121,7 +121,7 @@ public class ChatHistory extends AppCompatActivity {
                     }
                 }
 
-                if(allUsers.size() > 0){
+                if(allUsers.size() > 1){
                     populateChatList();
                 } else {
                     userListBar.setVisibility(View.VISIBLE);

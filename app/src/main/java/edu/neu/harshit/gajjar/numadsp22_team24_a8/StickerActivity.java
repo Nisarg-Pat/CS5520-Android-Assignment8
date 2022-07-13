@@ -1,12 +1,16 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.TaskStackBuilder;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,12 +34,14 @@ public class StickerActivity extends AppCompatActivity {
     private StickerNotification notification;
     private FloatingActionButton fab;
     private HashMap<String, Sticker> imageCount;
+    private Intent chatRoomIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sticker_layout);
         this.notification = new StickerNotification(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_stickers);
+        chatRoomIntent = getIntent();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,14 +68,17 @@ public class StickerActivity extends AppCompatActivity {
 
         imageCount = new HashMap<>();
         // to get the count of images
-        FirebaseDB.getDataReference(getString(R.string.user_db)).child(FirebaseDB.getCurrentUser().getUid()).child("image_count").addValueEventListener(new ValueEventListener() {
+        FirebaseDB.getDataReference(getString(R.string.user_db)).child(FirebaseDB.getCurrentUser().
+                getUid()).child("image_count").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap: snapshot.getChildren()) {
-                    stickerList.get(snap.getKey()).setCountSent(Integer.valueOf((String) snap.getValue()));
+                    stickerList.get(snap.getKey()).setCountSent
+                            (Integer.valueOf((String) snap.getValue()));
                 }
 
-                StickerAdapter stickerAdapter = new StickerAdapter(StickerActivity.this, new ArrayList<>(stickerList.values()), StickerActivity.this);
+                StickerAdapter stickerAdapter = new StickerAdapter(StickerActivity.this,
+                        new ArrayList<>(stickerList.values()), StickerActivity.this);
                 recyclerView.setAdapter(stickerAdapter);
             }
 
@@ -78,5 +87,14 @@ public class StickerActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+            return true;
+        }
+        return false;
     }
 }

@@ -139,6 +139,8 @@ public class ChatRoom extends AppCompatActivity {
         this.fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             Intent stickerIntent = new Intent(activity, StickerActivity.class);
+            stickerIntent.putExtra("currentUserName",receiver);
+            stickerIntent.putExtra("clickedUserName",receiverName);
             resultLauncher.launch(stickerIntent);
         });
         messageList = new ArrayList<Message>();

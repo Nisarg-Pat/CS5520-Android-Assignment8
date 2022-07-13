@@ -236,23 +236,6 @@ public class ChatRoom extends AppCompatActivity {
         fullChatRef.removeEventListener(listener);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        Util.isInChat = false;
-        fullChatRef.removeEventListener(listener);
-        Intent intent = new Intent(this, ChatHistory.class);
-        startActivity(intent);
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        Util.isInChat = false;
-        fullChatRef.removeEventListener(listener);
-        Intent intent = new Intent(this, ChatHistory.class);
-        startActivity(intent);
-    }
-
     class GetAllChats implements Runnable{
 
         @Override

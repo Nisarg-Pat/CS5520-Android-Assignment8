@@ -79,10 +79,4 @@ public class StickerActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

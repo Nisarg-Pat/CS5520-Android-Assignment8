@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,21 +47,26 @@ public class LoginActivity extends AppCompatActivity {
         button_signup = findViewById(R.id.button_signup);
         edit_login_username = findViewById(R.id.edit_login_username);
 
-        button_login.setOnClickListener(v ->
-                FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword(
-                        edit_login_username.getText().toString()+"@puddle.com",
-                        "123456").addOnCompleteListener(task -> {
-                            if(task.isSuccessful()){
-                                // Successfully Logged in
-                                Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
-                                intent.putExtra("loginUserName", edit_login_username.getText().toString());
-                                finish();
-                                startActivity(intent);
-                            } else {
-                                // Error
-                                Toast.makeText(LoginActivity.this, "Error logging IN!", Toast.LENGTH_SHORT).show();
-                            }
-                        }));
+        button_login.setOnClickListener(v -> {
+            if (!Util.isNetworkConnected(this)) {
+               Toast.makeText(this, "Please check your internet connection!", Toast.LENGTH_SHORT).show();
+               return;
+            }
+            FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword(
+                    edit_login_username.getText().toString()+"@puddle.com",
+                    "123456").addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    // Successfully Logged in
+                    Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
+                    intent.putExtra("loginUserName", edit_login_username.getText().toString());
+                    finish();
+                    startActivity(intent);
+                } else {
+                    // Error
+                    Toast.makeText(LoginActivity.this, "Error logging in! Please check the credentials.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
         button_signup.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,6 +1,7 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -62,33 +63,8 @@ public class Util {
     }
 
     public static String utcToLocalTime(String utc) {
-//        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss");
-//        dateFormatGmt.setTimeZone(Calendar.getInstance().getTimeZone());
-//        try{
-//            Date date = dateFormatGmt.parse("10:07:2022 17:05:51");
-//            Log.i("dateis", date.toString());
-//        } catch (ParseException e){
-//            Log.i("error", "got");
-//        }
-
-//        SimpleDateFormat FORMATTER = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss");
-////        FORMATTER.setTimeZone(TimeZone.getTimeZone("GMT"));
-//        Date currentDate = FORMATTER.parse("10:07:2022 18:46:42");
-//
-//
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();
-//
-//        Log.i("mytimezone", tz.getID().toString());
-//
-//        String s = TimeZone.getTimeZone(TimeZone.getDefault().getID())
-//                .getDisplayName(false, TimeZone.SHORT);
-//        Log.i("zoneid", s);
-//
-//        TimeZone myTimeZone = TimeZone.getTimeZone(s);
-//        FORMATTER.setTimeZone(myTimeZone);
-//        String sDateInMyTime = FORMATTER.format(currentDate);
-//        Log.i("dateinutc", sDateInMyTime);
 
 
         String inputValue = utc;
@@ -170,5 +146,10 @@ public class Util {
         }
 
         return dateToShow;
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getActiveNetworkInfo() != null;
     }
 }

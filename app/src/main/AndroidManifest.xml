@@ -22,6 +22,7 @@
             android:parentActivityName=".LoginActivity"/>
         <activity
             android:name=".ChatRoom"
+            android:taskAffinity=""
             android:exported="false"
             android:parentActivityName=".ChatHistory"/>
         <activity

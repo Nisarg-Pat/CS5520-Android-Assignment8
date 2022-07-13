@@ -39,6 +39,7 @@ public class Util {
         stickerIds.put("sticker8", R.drawable.sticker8);
         stickerIds.put("sticker9", R.drawable.sticker9);
         stickerIds.put("sticker10", R.drawable.sticker10);
+        stickerIds.put("sticker_not_found", R.drawable.question_mark);
 
         return stickerIds;
     }

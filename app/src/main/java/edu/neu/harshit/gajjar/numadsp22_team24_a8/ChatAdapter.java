@@ -43,7 +43,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         Message currentMessage = messageList.get(position);
         holder.chat_text_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
         holder.chat_text_username.setText(currentMessage.getUsername());
-        int stickerId = stringIds.get(currentMessage.getSticker());
+        int stickerId = stringIds.getOrDefault(currentMessage.getSticker(), R.drawable.question);
         holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
         Glide.with(context).load(AppCompatResources.getDrawable(context,stickerId)).into(holder.chat_sticker);
         holder.itemView.setOnClickListener((View v)->{

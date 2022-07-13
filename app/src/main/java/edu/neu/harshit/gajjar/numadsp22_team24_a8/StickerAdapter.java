@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 import pl.droidsonroids.gif.GifImageView;
 
 public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerViewHolder> {
@@ -49,6 +52,10 @@ public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.StickerV
         this.activity = activity;
         this.fab = activity.findViewById(R.id.fab1);
         fab.setOnClickListener(v -> {
+            if (!Util.isNetworkConnected(context)) {
+                Toast.makeText(context, "Please check your internet connection!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent();
             if (selectedSticker != -1) {
                 intent.putExtra("name", stickers.

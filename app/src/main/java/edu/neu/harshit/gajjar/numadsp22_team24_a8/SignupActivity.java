@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -32,8 +34,12 @@ public class SignupActivity extends AppCompatActivity {
 
         button_registration.setOnClickListener(v -> {
             // Implement Firebase signup logic
-            FirebaseDB.registerUser(edit_signup_username.getText().toString()+
-                    "@puddle.com", "123456",edit_signup_username.getText().toString(),
+            if (!Util.isNetworkConnected(this)) {
+                Toast.makeText(this, "Please connect to internet!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            FirebaseDB.registerUser(edit_signup_username.getText().toString().trim()+
+                    "@puddle.com", "123456",edit_signup_username.getText().toString().trim(),
                     SignupActivity.this);
         });
     }

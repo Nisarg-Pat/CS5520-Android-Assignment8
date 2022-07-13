@@ -89,23 +89,6 @@ public class FirebaseDB {
         });
     }
 
-    // To Login
-//    public static void logIn(String email, String password, Context ct){
-//        getInstanceFirebaseAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                if(task.isSuccessful()){
-//                    // Successfully Logged in
-//                    Intent intent = new Intent(ct, ChatHistory.class);
-//                    intent.putExtra("loginUserName", edit_login_username.getText().toString());
-//                    startActivity(intent);
-//                } else {
-//                    // Error
-//                }
-//            }
-//        });
-//    }
-
     public static void logout(){
         getInstanceFirebaseAuth().signOut();
     }

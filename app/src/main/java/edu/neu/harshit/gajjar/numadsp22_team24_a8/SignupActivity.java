@@ -40,6 +40,9 @@ public class SignupActivity extends AppCompatActivity {
             }
             FirebaseDB.registerUser(edit_signup_username.getText().toString().trim()+
                     "@puddle.com", "123456",edit_signup_username.getText().toString().trim(),
+            Util.newUser = true;
+            FirebaseDB.registerUser(edit_signup_username.getText().toString()+
+                    "@puddle.com", "123456",edit_signup_username.getText().toString(),
                     SignupActivity.this);
         });
     }

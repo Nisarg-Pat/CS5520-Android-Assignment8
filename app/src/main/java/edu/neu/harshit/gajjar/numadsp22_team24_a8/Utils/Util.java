@@ -27,6 +27,7 @@ public class Util {
     public static HashMap<String, Integer> stickerIds;
     public static boolean isInChat = false;
     public static boolean isForeground = true;
+    public static boolean newUser = false;
 
     public static HashMap<String, Integer> getStickerIds(Context ct){
         stickerIds = new HashMap<>();

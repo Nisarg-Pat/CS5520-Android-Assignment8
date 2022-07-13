@@ -47,13 +47,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.chat_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
         Glide.with(context).load(AppCompatResources.getDrawable(context,stickerId)).into(holder.chat_sticker);
         holder.itemView.setOnClickListener((View v)->{
-
             Intent intent = new Intent(context, ChatRoom.class);
             intent.putExtra("currentUserName", currentMessage.getUsername().toString());
             intent.putExtra("clickedUserName", currentMessage.getUsername().toString());
             context.startActivity(intent);
         });
     }
+
+
 
     @Override
     public int getItemCount() {

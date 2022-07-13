@@ -3,6 +3,7 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,11 +24,10 @@ import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
@@ -43,6 +45,52 @@ public class ChatRoom extends AppCompatActivity {
     private Activity activity;
     ProgressBar messageHistoryBar;
     Handler visibilityHandler = new Handler();
+    private String chatId;
+    private DatabaseReference fullChatRef;
+    private ChildEventListener listener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            String sender = "", receiver = "", stickerID = "";
+            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                MessageHistory msg = snapshot1.getValue(MessageHistory.class);
+                if (msg != null) {
+                    sender = msg.getSender();
+                    receiver = msg.getReceiver();
+                    stickerID = msg.getMessage();
+                }
+            }
+            String externalChatID = Util.generateChatID(sender, receiver);
+            Log.d("externalchatID", externalChatID);
+            Log.d("chatID", chatId);
+
+            boolean matches = receiver.equals(FirebaseDB.currentUser.getUsername());
+            if ((!externalChatID.equals(chatId) && matches) || (!Util.isForeground && matches)) {
+                int id = getApplicationContext().getResources().getIdentifier(stickerID, "drawable",
+                        getApplicationContext().getPackageName());
+                notification.createNotification(sender, id);
+            }
+        }
+
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
 
     private ActivityResultLauncher<Intent> resultLauncher =
             registerForActivityResult(new
@@ -67,6 +115,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chatroom);
+        Util.isInChat = true;
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -77,6 +126,7 @@ public class ChatRoom extends AppCompatActivity {
         Intent intent = getIntent();
         receiver = intent.getStringExtra("currentUserName");
         receiverName = intent.getStringExtra("clickedUserName");
+        this.chatId = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
         getSupportActionBar().setTitle(receiver);
 
         chatRoomRecyclerView = findViewById(R.id.chat_room_recycler_view);
@@ -119,10 +169,15 @@ public class ChatRoom extends AppCompatActivity {
                 .setValue(String.valueOf(count + 1));
     }
 
-    public void fetchChatHistory(){
-        String chatid = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
-        DatabaseReference chatRef = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatid);
+    public void addNotificationListener(){
+        this.fullChatRef = FirebaseDB.getDataReference(getString(R.string.chat));
+        fullChatRef.addChildEventListener(listener);
+    }
 
+    public void fetchChatHistory(){
+
+        DatabaseReference chatRef = FirebaseDB.getDataReference(getString(R.string.chat)).child(this.chatId);
+        addNotificationListener();
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -133,13 +188,14 @@ public class ChatRoom extends AppCompatActivity {
                     if(history != null){
                         messageList.add(new Message(history.getTimestamp(),
                                 history.getSender(), history.getMessage()));
-                        if (!Util.generateChatID(history.getSender(),
-                                history.getReceiver()).equals(chatid)) {
-                            notification.createNotification(history.getReceiver());
-                        }
                     }
                 }
 
+                messageAdpater = new MessageAdapter(ChatRoom.this,messageList,
+                        Util.getStickerIds(ChatRoom.this));
+                chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
+                chatRoomRecyclerView.setAdapter(messageAdpater);
+                chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);
                 if(messageList.size() == 0){
                     messageHistoryBar.setVisibility(View.GONE);
                 }
@@ -163,16 +219,38 @@ public class ChatRoom extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        Util.isForeground = false;
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        Util.isForeground = true;
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fullChatRef.removeEventListener(listener);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        Util.isInChat = false;
+        fullChatRef.removeEventListener(listener);
+        Intent intent = new Intent(this, ChatHistory.class);
+        startActivity(intent);
         return true;
     }
 
     @Override
     public void onBackPressed() {
+        Util.isInChat = false;
+        fullChatRef.removeEventListener(listener);
         Intent intent = new Intent(this, ChatHistory.class);
         startActivity(intent);
-
     }
 
     class GetAllChats implements Runnable{

@@ -53,12 +53,12 @@ public class LoginActivity extends AppCompatActivity {
                return;
             }
             FirebaseDB.getInstanceFirebaseAuth().signInWithEmailAndPassword(
-                    edit_login_username.getText().toString()+"@puddle.com",
+                    edit_login_username.getText().toString().trim()+"@puddle.com",
                     "123456").addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
                     // Successfully Logged in
                     Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
-                    intent.putExtra("loginUserName", edit_login_username.getText().toString());
+                    intent.putExtra("loginUserName", edit_login_username.getText().toString().trim());
                     finish();
                     startActivity(intent);
                 } else {

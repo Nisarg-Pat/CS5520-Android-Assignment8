@@ -38,8 +38,8 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please connect to internet!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            FirebaseDB.registerUser(edit_signup_username.getText().toString()+
-                    "@puddle.com", "123456",edit_signup_username.getText().toString(),
+            FirebaseDB.registerUser(edit_signup_username.getText().toString().trim()+
+                    "@puddle.com", "123456",edit_signup_username.getText().toString().trim(),
                     SignupActivity.this);
         });
     }

@@ -83,7 +83,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Message currentMessage = messageList.get(position);
             viewHolder.receive_datetime.setText(Util.convertTocurrentDateTime(currentMessage.getDatetime()));
             viewHolder.receive_username.setText(currentMessage.getUsername());
-            int stickerId = stringIds.get(currentMessage.getSticker());
+            int stickerId = stringIds.getOrDefault(currentMessage.getSticker(), R.drawable.question);
             viewHolder.receive_sticker.setImageDrawable(AppCompatResources.getDrawable(context,stickerId));
 //            Glide.with(context).load(AppCompatResources.getDrawable(context,currentMessage.getSticker())).into(viewHolder.receive_sticker);
 

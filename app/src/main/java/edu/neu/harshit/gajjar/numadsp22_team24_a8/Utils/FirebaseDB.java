@@ -75,6 +75,7 @@ public class FirebaseDB {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
+                                Util.newUser = true;
                                 Intent intent = new Intent(ct, ChatHistory.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 ct.startActivity(intent);
@@ -83,6 +84,8 @@ public class FirebaseDB {
                             }
                         }
                     });
+                } else {
+                    Toast.makeText(ct, "Username already in use.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

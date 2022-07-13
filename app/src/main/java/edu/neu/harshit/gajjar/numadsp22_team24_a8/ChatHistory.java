@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class ChatHistory extends AppCompatActivity {
     private FloatingActionButton newChatButton;
     private StickerNotification notification;
     private ProgressBar userListBar;
+    private boolean newUser;
     Handler visibilityHandler = new Handler();
 
     // Firebase
@@ -54,7 +56,7 @@ public class ChatHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_history);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chathistory);
+        Toolbar toolbar = findViewById(R.id.toolbar_chathistory);
         setSupportActionBar(toolbar);
         Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
         Util.isInChat = false;
@@ -67,10 +69,16 @@ public class ChatHistory extends AppCompatActivity {
         Intent intent = getIntent();
 
         loginUserName = intent.getStringExtra("currentUserName");
+        if (Util.newUser){
+            findViewById(R.id.no_chats_text_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.no_chats_gif).setVisibility(View.VISIBLE);
+        }
+
         chatMap = new HashMap<>();
 
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
 //        getAllUsers();
+
 
         chatRecyclerView.setVisibility(View.GONE);
         userListBar.setVisibility(View.VISIBLE);
@@ -82,6 +90,8 @@ public class ChatHistory extends AppCompatActivity {
             startActivity(newChatIntent);
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,7 +115,6 @@ public class ChatHistory extends AppCompatActivity {
     public void getAllUsers(){
         currentUser = FirebaseDB.getCurrentUser();
         userDbRef = FirebaseDB.getDataReference(getString(R.string.user_db));
-
         userDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -121,7 +130,7 @@ public class ChatHistory extends AppCompatActivity {
                     }
                 }
 
-                if(allUsers.size() > 1){
+                if(allUsers.size() >= 1){
                     populateChatList();
                 } else {
                     userListBar.setVisibility(View.GONE);
@@ -149,15 +158,18 @@ public class ChatHistory extends AppCompatActivity {
                                 user.getUsername(),
                                 msg.getMessage()));
                     }
+                        visibilityHandler.post(() -> {
 
-                    visibilityHandler.post(() -> {
-                        chatAdapter = new ChatAdapter(ChatHistory.this, new ArrayList<>(chatMap.values()));
-                        chatRecyclerView.setLayoutManager(new LinearLayoutManager(ChatHistory.this));
-                        chatRecyclerView.setAdapter(chatAdapter);
-
-                        userListBar.setVisibility(View.GONE);
-                        chatRecyclerView.setVisibility(View.VISIBLE);
-                    });
+//                            findViewById(R.id.no_chats_gif).setVisibility(View.INVISIBLE);
+//                            findViewById(R.id.no_chats_text_view).setVisibility(View.INVISIBLE);
+                            chatAdapter = new ChatAdapter(ChatHistory.this,
+                                    new ArrayList<>(chatMap.values()));
+                            chatRecyclerView.setLayoutManager(new
+                                    LinearLayoutManager(ChatHistory.this));
+                            chatRecyclerView.setAdapter(chatAdapter);
+                            userListBar.setVisibility(View.GONE);
+                            chatRecyclerView.setVisibility(View.VISIBLE);
+                        });
                 }
 
                 @Override
@@ -167,9 +179,7 @@ public class ChatHistory extends AppCompatActivity {
             });
         }
     }
-    public void newChat(View view){
 
-    }
 
     class AllUsersListChats implements Runnable{
 

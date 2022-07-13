@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
 
         button_registration.setOnClickListener(v -> {
             // Implement Firebase signup logic
+            Util.newUser = true;
             FirebaseDB.registerUser(edit_signup_username.getText().toString()+
                     "@puddle.com", "123456",edit_signup_username.getText().toString(),
                     SignupActivity.this);

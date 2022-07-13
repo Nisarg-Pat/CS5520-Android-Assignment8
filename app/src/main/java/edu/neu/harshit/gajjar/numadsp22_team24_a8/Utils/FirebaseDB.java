@@ -74,7 +74,6 @@ public class FirebaseDB {
                     ref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d("result", task.toString());
                             if(task.isSuccessful()){
                                 Intent intent = new Intent(ct, ChatHistory.class);
                                 ct.startActivity(intent);

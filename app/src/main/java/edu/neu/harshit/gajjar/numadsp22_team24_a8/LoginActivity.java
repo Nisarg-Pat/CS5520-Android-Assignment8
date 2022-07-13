@@ -53,12 +53,14 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 // Successfully Logged in
                                 Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
-                                intent.putExtra("loginUserName", edit_login_username.getText().toString());
-                                finish();
+                                intent.putExtra("loginUserName",
+                                        edit_login_username.getText().toString());
                                 startActivity(intent);
+                                finish();
                             } else {
                                 // Error
-                                Toast.makeText(LoginActivity.this, "Error logging IN!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this,
+                                        "Error logging IN!", Toast.LENGTH_SHORT).show();
                             }
                         }));
 

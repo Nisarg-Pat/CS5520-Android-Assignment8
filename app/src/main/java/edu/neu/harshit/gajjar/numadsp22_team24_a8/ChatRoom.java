@@ -116,6 +116,7 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chatroom);
         Util.isInChat = true;
+        Util.newUser = false;
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);

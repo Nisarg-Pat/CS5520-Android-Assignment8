@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,16 +13,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/no_chats_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sticker2"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_chathistory" />
+
+    <TextView
+        android:id="@+id/no_chats_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome!"
+        android:textSize="24sp"
+        android:theme="@style/Widget.MaterialComponents.TextView"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_chats_gif" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_history_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_chathistory"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="-50dp"
+        app:layout_constraintVertical_bias="0.923"
         tools:listitem="@layout/chat_row" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,13 +55,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:onClick="newChat"
-        android:src="@drawable/ic_baseline_message_24"
-        app:tint="@android:color/white"
         android:backgroundTint="@color/mtrl_textinput_default_box_stroke_color"
+        android:contentDescription="@string/new_chat"
+        android:src="@drawable/ic_baseline_message_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/new_chat"/>
+        app:tint="@android:color/white" />
 
     <ProgressBar
         android:id="@+id/users_list_progress_bar"

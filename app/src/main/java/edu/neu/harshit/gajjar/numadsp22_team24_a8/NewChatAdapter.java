@@ -1,5 +1,6 @@
 package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class NewChatAdapter extends RecyclerView.Adapter<NewChatAdapter.UserView
             intent.putExtra("currentUserName", user.getUsername().toString());
             intent.putExtra("clickedUserName", user.getUsername().toString());
             context.startActivity(intent);
+            ((Activity) context).finish();
         });
     }
 

@@ -37,9 +37,4 @@ public class SignupActivity extends AppCompatActivity {
                     SignupActivity.this);
         });
     }
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

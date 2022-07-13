@@ -26,7 +26,7 @@ public class StickerActivity extends AppCompatActivity {
     private final int[] STICKER_IDS = new int[] {R.drawable.sticker1,
             R.drawable.sticker2,R.drawable.sticker3,R.drawable.sticker4,
             R.drawable.sticker5,R.drawable.sticker6,R.drawable.sticker7,
-            R.drawable.sticker8,R.drawable.sticker9,R.drawable.sticker10};
+            R.drawable.sticker8,R.drawable.sticker9, R.drawable.sticker10};
     private StickerNotification notification;
     private FloatingActionButton fab;
     private HashMap<String, Sticker> imageCount;

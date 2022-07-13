@@ -57,6 +57,7 @@ public class ChatHistory extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chathistory);
         setSupportActionBar(toolbar);
         Log.i("login successful", FirebaseDB.getCurrentUser().getUid());
+        Util.isInChat = false;
         this.notification = new StickerNotification(this);
         addNotificationListener();
 
@@ -185,7 +186,7 @@ public class ChatHistory extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String sender = "", receiver = "", chatId = "", stickerID = "";
+                String sender = "", receiver = "", stickerID = "";
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     MessageHistory msg = snapshot1.getValue(MessageHistory.class);
                     if (msg != null) {
@@ -194,11 +195,15 @@ public class ChatHistory extends AppCompatActivity {
                         stickerID = msg.getMessage();
                     }
                 }
-                String externalChatID = Util.generateChatID(sender, receiver);
                 Log.d("receiver",receiver);
-                int id = getApplicationContext().getResources().getIdentifier(stickerID,
-                        "drawable",getApplicationContext().getPackageName());
-                notification.createNotification(sender,id);
+                Log.d("sender",sender);
+                Log.d("username",FirebaseDB.currentUser.getUsername());
+                Log.d("util", String.valueOf(Util.isInChat));
+                if (receiver.equals(FirebaseDB.currentUser.getUsername()) && !Util.isInChat) {
+                    int id = getApplicationContext().getResources().getIdentifier(stickerID,
+                            "drawable", getApplicationContext().getPackageName());
+                    notification.createNotification(sender,id);
+                }
             }
 
             @Override

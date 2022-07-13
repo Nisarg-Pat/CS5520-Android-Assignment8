@@ -48,7 +48,8 @@ public class StickerNotification {
                 .setSmallIcon(R.drawable.notification_message)
                 .setContentTitle(username)
                 .setContentText("New Sticker!").setContentIntent(notifyPendingIntent).setLargeIcon(icon)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT).setStyle(new NotificationCompat.BigPictureStyle().bigLargeIcon(icon));
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT).
+                setStyle(new NotificationCompat.BigPictureStyle().bigLargeIcon(icon));
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(activity);

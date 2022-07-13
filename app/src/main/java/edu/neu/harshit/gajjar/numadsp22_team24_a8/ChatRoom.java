@@ -46,6 +46,49 @@ public class ChatRoom extends AppCompatActivity {
     private Activity activity;
     ProgressBar messageHistoryBar;
     Handler visibilityHandler = new Handler();
+    private String chatId;
+    private DatabaseReference fullChatRef;
+    private ChildEventListener listener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            String sender = "", receiver = "", stickerID = "";
+            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                MessageHistory msg = snapshot1.getValue(MessageHistory.class);
+                if (msg != null) {
+                    sender = msg.getSender();
+                    receiver = msg.getReceiver();
+                    stickerID = msg.getMessage();
+                }
+            }
+            String externalChatID = Util.generateChatID(sender, receiver);
+            Log.d("externalchatID", externalChatID);
+            Log.d("chatID", chatId);
+            if (!externalChatID.equals(chatId) && receiver.equals(FirebaseDB.currentUser.getUsername())) {
+                int id = getApplicationContext().getResources().getIdentifier(stickerID, "drawable", getApplicationContext().getPackageName());
+                notification.createNotification(sender, id);
+            }
+        }
+
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
 
     private ActivityResultLauncher<Intent> resultLauncher =
             registerForActivityResult(new
@@ -70,6 +113,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chatroom);
+        Util.isInChat = true;
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -80,6 +124,7 @@ public class ChatRoom extends AppCompatActivity {
         Intent intent = getIntent();
         receiver = intent.getStringExtra("currentUserName");
         receiverName = intent.getStringExtra("clickedUserName");
+        this.chatId = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
         getSupportActionBar().setTitle(receiver);
 
         chatRoomRecyclerView = findViewById(R.id.chat_room_recycler_view);
@@ -103,6 +148,7 @@ public class ChatRoom extends AppCompatActivity {
 
     }
 
+
     public void sendMessageToFirebase(String stickerId, String stickerName, int count){
         DatabaseReference reference = FirebaseDB.getReferencetoRootDB();
 
@@ -122,53 +168,15 @@ public class ChatRoom extends AppCompatActivity {
                 .setValue(String.valueOf(count + 1));
     }
 
-    public void addNotificationListener(String chatId){
-        DatabaseReference fullchatRef = FirebaseDB.getDataReference(getString(R.string.chat));
-        fullchatRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String sender = "", receiver = "", stickerID = "";
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    MessageHistory msg = snapshot1.getValue(MessageHistory.class);
-                    if (msg != null) {
-                        sender = msg.getSender();
-                        receiver = msg.getReceiver();
-                        stickerID = msg.getMessage();
-                    }
-                }
-                String externalChatID = Util.generateChatID(sender, receiver);
-                if (!externalChatID.equals(chatId)) {
-                    int id = getApplicationContext().getResources().getIdentifier(stickerID,"drawable",getApplicationContext().getPackageName());
-                    notification.createNotification(sender,id);
-                }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    public void addNotificationListener(){
+        this.fullChatRef = FirebaseDB.getDataReference(getString(R.string.chat));
+        fullChatRef.addChildEventListener(listener);
     }
 
     public void fetchChatHistory(){
-        String chatid = Util.generateChatID(FirebaseDB.currentUser.getUsername(), receiverName);
-        DatabaseReference chatRef = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatid);
-        addNotificationListener(chatid);
+
+        DatabaseReference chatRef = FirebaseDB.getDataReference(getString(R.string.chat)).child(this.chatId);
+        addNotificationListener();
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -206,16 +214,26 @@ public class ChatRoom extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fullChatRef.removeEventListener(listener);
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        Util.isInChat = false;
+        fullChatRef.removeEventListener(listener);
+        Intent intent = new Intent(this, ChatHistory.class);
+        startActivity(intent);
         return true;
     }
 
     @Override
     public void onBackPressed() {
+        Util.isInChat = false;
+        fullChatRef.removeEventListener(listener);
         Intent intent = new Intent(this, ChatHistory.class);
         startActivity(intent);
-
     }
 
     class GetAllChats implements Runnable{

@@ -77,6 +77,7 @@ public class FirebaseDB {
                             Log.d("result", task.toString());
                             if(task.isSuccessful()){
                                 Intent intent = new Intent(ct, ChatHistory.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 ct.startActivity(intent);
                             } else {
                                 Toast.makeText(ct, "Error registering user!", Toast.LENGTH_SHORT).show();

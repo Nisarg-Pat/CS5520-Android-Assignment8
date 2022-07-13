@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 // Successfully Logged in
                                 Intent intent = new Intent(LoginActivity.this, ChatHistory.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("loginUserName", edit_login_username.getText().toString());
                                 finish();
                                 startActivity(intent);

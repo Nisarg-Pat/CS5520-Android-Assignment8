@@ -188,6 +188,10 @@ public class ChatRoom extends AppCompatActivity {
                     if(history != null){
                         messageList.add(new Message(history.getTimestamp(),
                                 history.getSender(), history.getMessage()));
+                        if (!Util.generateChatID(history.getSender(),
+                                history.getReceiver()).equals(chatid)) {
+                            notification.createNotification(history.getReceiver());
+                        }
                     }
                 }
 
@@ -196,6 +200,10 @@ public class ChatRoom extends AppCompatActivity {
                 chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));
                 chatRoomRecyclerView.setAdapter(messageAdpater);
                 chatRoomRecyclerView.scrollToPosition(messageList.size() - 1);
+                if(messageList.size() == 0){
+                    messageHistoryBar.setVisibility(View.GONE);
+                }
+
                 visibilityHandler.post(() -> {
                     messageAdpater = new MessageAdapter(ChatRoom.this,messageList, Util.getStickerIds(ChatRoom.this));
                     chatRoomRecyclerView.setLayoutManager(new LinearLayoutManager(ChatRoom.this));

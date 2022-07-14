@@ -44,7 +44,7 @@ public class StickerNotification {
                 NotificationCompat.Builder(activity, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_message)
                 .setContentTitle(username).setAutoCancel(true).
-                setContentText("New Sticker!").setContentIntent(notifyPendingIntent).setLargeIcon(icon)
+                setContentText("sent a new sticker!").setContentIntent(notifyPendingIntent).setLargeIcon(icon)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(activity);

@@ -3,14 +3,12 @@ package edu.neu.harshit.gajjar.numadsp22_team24_a8;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.TaskStackBuilder;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Adapter.StickerAdapter;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.Sticker;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 
 public class StickerActivity extends AppCompatActivity {

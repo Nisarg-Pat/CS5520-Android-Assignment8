@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Adapter.MessageAdapter;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.Message;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.Util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;

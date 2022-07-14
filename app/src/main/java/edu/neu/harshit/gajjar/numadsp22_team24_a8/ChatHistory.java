@@ -25,10 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Adapter.ChatAdapter;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.Message;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;

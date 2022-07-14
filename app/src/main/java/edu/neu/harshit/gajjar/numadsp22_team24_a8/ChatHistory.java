@@ -25,10 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Adapter.ChatAdapter;
+import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.Message;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.MessageHistory;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Model.User;
 import edu.neu.harshit.gajjar.numadsp22_team24_a8.Utils.FirebaseDB;
@@ -41,7 +42,7 @@ public class ChatHistory extends AppCompatActivity {
     private String loginUserName;
     private FloatingActionButton newChatButton;
     private StickerNotification notification;
-    private ProgressBar userListBar;
+    private View userListProgressConstraint;
     private boolean newUser;
     Handler visibilityHandler = new Handler();
 
@@ -64,12 +65,12 @@ public class ChatHistory extends AppCompatActivity {
         addNotificationListener();
 
         // Initialization
-        userListBar = findViewById(R.id.users_list_progress_bar);
+        userListProgressConstraint = findViewById(R.id.progress_constraint);
         allUsers = new ArrayList<>();
         Intent intent = getIntent();
 
         loginUserName = intent.getStringExtra("currentUserName");
-        if (Util.newUser){
+        if (Util.newUser) {
             findViewById(R.id.no_chats_text_view).setVisibility(View.VISIBLE);
             findViewById(R.id.no_chats_gif).setVisibility(View.VISIBLE);
         }
@@ -77,11 +78,14 @@ public class ChatHistory extends AppCompatActivity {
         chatMap = new HashMap<>();
 
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
-//        getAllUsers();
-
 
         chatRecyclerView.setVisibility(View.GONE);
-        userListBar.setVisibility(View.VISIBLE);
+        userListProgressConstraint.setVisibility(View.VISIBLE);
+        if (!Util.isNetworkConnected(this)) {
+            findViewById(R.id.user_list_no_internet).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.user_list_no_internet).setVisibility(View.GONE);
+        }
         new Thread(new ChatHistory.AllUsersListChats()).start();
 
         newChatButton = findViewById(R.id.new_chat);
@@ -90,7 +94,6 @@ public class ChatHistory extends AppCompatActivity {
             startActivity(newChatIntent);
         });
     }
-
 
 
     @Override
@@ -112,28 +115,28 @@ public class ChatHistory extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getAllUsers(){
+    public void getAllUsers() {
         currentUser = FirebaseDB.getCurrentUser();
         userDbRef = FirebaseDB.getDataReference(getString(R.string.user_db));
         userDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 allUsers.clear();
-                for(DataSnapshot snap: snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     User user = (User) snap.getValue(User.class);
 
                     // Fetch all users except the current User
-                    if(user != null && !user.getId().equals(FirebaseDB.getCurrentUser().getUid())){
-                         allUsers.add(user);
+                    if (user != null && !user.getId().equals(FirebaseDB.getCurrentUser().getUid())) {
+                        allUsers.add(user);
                     } else {
                         FirebaseDB.currentUser = user;
                     }
                 }
 
-                if(allUsers.size() >= 1){
+                if (allUsers.size() >= 1) {
                     populateChatList();
                 } else {
-                    userListBar.setVisibility(View.GONE);
+                    userListProgressConstraint.setVisibility(View.GONE);
                 }
             }
 
@@ -158,18 +161,20 @@ public class ChatHistory extends AppCompatActivity {
                                 user.getUsername(),
                                 msg.getMessage()));
                     }
+                    if (chatMap.size() != 0) {
                         visibilityHandler.post(() -> {
-
-//                            findViewById(R.id.no_chats_gif).setVisibility(View.INVISIBLE);
-//                            findViewById(R.id.no_chats_text_view).setVisibility(View.INVISIBLE);
+                            Util.newUser = false;
+                            findViewById(R.id.no_chats_gif).setVisibility(View.INVISIBLE);
+                            findViewById(R.id.no_chats_text_view).setVisibility(View.INVISIBLE);
                             chatAdapter = new ChatAdapter(ChatHistory.this,
                                     new ArrayList<>(chatMap.values()));
                             chatRecyclerView.setLayoutManager(new
                                     LinearLayoutManager(ChatHistory.this));
                             chatRecyclerView.setAdapter(chatAdapter);
-                            userListBar.setVisibility(View.GONE);
+                            userListProgressConstraint.setVisibility(View.GONE);
                             chatRecyclerView.setVisibility(View.VISIBLE);
                         });
+                    }
                 }
 
                 @Override
@@ -181,14 +186,15 @@ public class ChatHistory extends AppCompatActivity {
     }
 
 
-    class AllUsersListChats implements Runnable{
+    class AllUsersListChats implements Runnable {
 
         @Override
         public void run() {
             getAllUsers();
         }
     }
-    public void addNotificationListener(){
+
+    public void addNotificationListener() {
         DatabaseReference fullchatRef = FirebaseDB.getDataReference(getString(R.string.chat));
         fullchatRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -207,14 +213,14 @@ public class ChatHistory extends AppCompatActivity {
                         stickerID = msg.getMessage();
                     }
                 }
-                Log.d("receiver",receiver);
-                Log.d("sender",sender);
-                Log.d("username",FirebaseDB.currentUser.getUsername());
+                Log.d("receiver", receiver);
+                Log.d("sender", sender);
+                Log.d("username", FirebaseDB.currentUser.getUsername());
                 Log.d("util", String.valueOf(Util.isInChat));
                 if (receiver.equals(FirebaseDB.currentUser.getUsername()) && !Util.isInChat) {
                     int id = getApplicationContext().getResources().getIdentifier(stickerID,
                             "drawable", getApplicationContext().getPackageName());
-                    notification.createNotification(sender,id);
+                    notification.createNotification(sender, id);
                 }
             }
 

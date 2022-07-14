@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,25 +32,20 @@ public class StickerNotification {
 
         Bitmap icon = BitmapFactory.decodeResource(activity.getResources(),
                 id);
-
         Intent notifyIntent = new Intent(activity,ChatRoom.class);
         notifyIntent.putExtra("currentUserName", username);
         notifyIntent.putExtra("clickedUserName", username);
-        // Set the Activity to start in a new, empty task
-        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Create the PendingIntent
-        PendingIntent notifyPendingIntent = PendingIntent.getActivity(
-                activity, 0, notifyIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(activity);
+        stackBuilder.addNextIntentWithParentStack(notifyIntent);
+        PendingIntent notifyPendingIntent =
+                stackBuilder.getPendingIntent(0,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder builder = new
                 NotificationCompat.Builder(activity, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.notification_message)
                 .setContentTitle(username).setAutoCancel(true).
                 setContentText("New Sticker!").setContentIntent(notifyPendingIntent).setLargeIcon(icon)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(activity);
         notificationManager.notify(NOTIFICATION_ID,builder.build());

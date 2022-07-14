@@ -73,6 +73,14 @@ public class ChatHistory extends AppCompatActivity {
         if (Util.newUser) {
             findViewById(R.id.no_chats_text_view).setVisibility(View.VISIBLE);
             findViewById(R.id.no_chats_gif).setVisibility(View.VISIBLE);
+            userListProgressConstraint.setVisibility(View.GONE);
+        } else {
+            userListProgressConstraint.setVisibility(View.VISIBLE);
+            if (!Util.isNetworkConnected(this)) {
+                findViewById(R.id.user_list_no_internet).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.user_list_no_internet).setVisibility(View.GONE);
+            }
         }
 
         chatMap = new HashMap<>();
@@ -80,12 +88,6 @@ public class ChatHistory extends AppCompatActivity {
         chatRecyclerView = findViewById(R.id.chat_history_recycler_view);
 
         chatRecyclerView.setVisibility(View.GONE);
-        userListProgressConstraint.setVisibility(View.VISIBLE);
-        if (!Util.isNetworkConnected(this)) {
-            findViewById(R.id.user_list_no_internet).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.user_list_no_internet).setVisibility(View.GONE);
-        }
         new Thread(new ChatHistory.AllUsersListChats()).start();
 
         newChatButton = findViewById(R.id.new_chat);
@@ -183,6 +185,7 @@ public class ChatHistory extends AppCompatActivity {
                 }
             });
         }
+        userListProgressConstraint.setVisibility(View.GONE);
     }
 
 

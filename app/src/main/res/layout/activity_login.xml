@@ -13,94 +13,94 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-    <Button
-        android:id="@+id/button_login"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp"
-        android:backgroundTint="#C1D4FF"
-        android:text="Login"
-        android:textColor="#5183F7"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_signup"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_username"
-        app:layout_constraintVertical_bias="0.4" />
-
-    <Button
-        android:id="@+id/button_signup"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="#C1D4FF"
-        android:text="Signup"
-        android:textColor="#5183F7"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_login"
-        app:layout_constraintTop_toTopOf="@+id/button_login" />
-
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="85dp"
-        android:layout_height="76dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/icon_puddle"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        app:layout_constraintVertical_bias="0.06" />
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/include">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_username"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_icon"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="40dp"
-        android:hint="Username"
-        android:textColorHint="#5183F7"
-        app:boxCornerRadiusBottomEnd="15dp"
-        app:boxCornerRadiusBottomStart="15dp"
-        app:boxCornerRadiusTopEnd="15dp"
-        app:boxCornerRadiusTopStart="15dp"
-        app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
-        app:boxStrokeWidth="3dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="15"
-        app:counterOverflowTextColor="@android:color/holo_red_light"
-        app:counterTextAppearance="@style/HelperTextAppearance"
-        app:helperText="@string/helper_text_login"
-        app:helperTextEnabled="true"
-        app:helperTextTextAppearance="@style/HelperTextAppearance"
-        app:hintAnimationEnabled="true"
-        app:hintEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_icon"
-        app:startIconDrawable="@drawable/account_circle"
-        app:startIconTint="#5183F7">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_login_username"
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:id="@+id/app_icon"
+            android:layout_width="85dp"
+            android:layout_height="76dp"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_puddle"
+             />
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:id="@+id/edit_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Username"
+            android:textColorHint="#5183F7"
+            app:boxCornerRadiusBottomEnd="15dp"
+            app:boxCornerRadiusBottomStart="15dp"
+            app:boxCornerRadiusTopEnd="15dp"
+            app:boxCornerRadiusTopStart="15dp"
+            app:boxStrokeColor="@color/mtrl_textinput_default_box_stroke_color"
+            app:boxStrokeWidth="3dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:counterOverflowTextColor="@android:color/holo_red_light"
+            app:counterTextAppearance="@style/HelperTextAppearance"
+            app:helperText="@string/helper_text_login"
+            app:helperTextEnabled="true"
+            app:helperTextTextAppearance="@style/HelperTextAppearance"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:startIconDrawable="@drawable/account_circle"
+            app:startIconTint="#5183F7">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_login_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
 
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:layout_margin="15dp"
+                android:id="@+id/button_login"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="#C1D4FF"
+                android:text="Login"
+                android:textColor="#5183F7"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_margin="15dp"
+                android:id="@+id/button_signup"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="#C1D4FF"
+                android:text="Signup"
+                android:textColor="#5183F7"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

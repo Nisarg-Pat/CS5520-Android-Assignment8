@@ -147,32 +147,34 @@ public class ChatHistory extends AppCompatActivity {
         });
     }
 
-    public void populateChatList() {
+    public void populateChatList(){
         chatMap.clear();
-        for (User user : allUsers) {
+        for(User user: allUsers) {
             String chatId = Util.generateChatID(FirebaseDB.currentUser.getUsername(), user.getUsername());
             DatabaseReference ref = FirebaseDB.getDataReference(getString(R.string.chat)).child(chatId);
             ref.limitToLast(1).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot snap : snapshot.getChildren()) {
+                    for(DataSnapshot snap: snapshot.getChildren()){
                         MessageHistory msg = (MessageHistory) snap.getValue(MessageHistory.class);
                         chatMap.put(chatId, new Message(msg.getTimestamp(),
                                 user.getUsername(),
                                 msg.getMessage()));
                     }
-                    visibilityHandler.post(() -> {
-
-//                            findViewById(R.id.no_chats_gif).setVisibility(View.INVISIBLE);
-//                            findViewById(R.id.no_chats_text_view).setVisibility(View.INVISIBLE);
-                        chatAdapter = new ChatAdapter(ChatHistory.this,
-                                new ArrayList<>(chatMap.values()));
-                        chatRecyclerView.setLayoutManager(new
-                                LinearLayoutManager(ChatHistory.this));
-                        chatRecyclerView.setAdapter(chatAdapter);
-                        userListProgressConstraint.setVisibility(View.GONE);
-                        chatRecyclerView.setVisibility(View.VISIBLE);
-                    });
+                    if (chatMap.size() != 0) {
+                        visibilityHandler.post(() -> {
+                            Util.newUser = false;
+                            findViewById(R.id.no_chats_gif).setVisibility(View.INVISIBLE);
+                            findViewById(R.id.no_chats_text_view).setVisibility(View.INVISIBLE);
+                            chatAdapter = new ChatAdapter(ChatHistory.this,
+                                    new ArrayList<>(chatMap.values()));
+                            chatRecyclerView.setLayoutManager(new
+                                    LinearLayoutManager(ChatHistory.this));
+                            chatRecyclerView.setAdapter(chatAdapter);
+                            userListProgressConstraint.setVisibility(View.GONE);
+                            chatRecyclerView.setVisibility(View.VISIBLE);
+                        });
+                    }
                 }
 
                 @Override
